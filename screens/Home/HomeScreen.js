@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, StyleSheet, SafeAreaView} from 'react-native';
 
 class HomeScreen extends Component {
   constructor(props) {
@@ -10,7 +10,7 @@ class HomeScreen extends Component {
   render() {
     return (
       <View>
-        <Text> componentText </Text>
+        <Text> HomeScreen </Text>
       </View>
     );
   }
