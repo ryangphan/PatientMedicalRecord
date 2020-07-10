@@ -9,6 +9,8 @@ import {
   StatusBar,
 } from 'react-native';
 
+import {firebase} from './config/config';
+
 import ErrorBoundary from './screens/Components/ErrorBoundary';
 import HomeScreen from './screens/Home/HomeScreen';
 import LoginScreen from './screens/Home/LoginScreen';
@@ -34,6 +36,30 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
 
+  useEffect(() => {
+    const usersRef = firebase.firestore().collection('users');
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        usersRef
+          .doc(user.uid)
+          .get()
+          .then((document) => {
+            const userData = document.data();
+            setLoading(false);
+            setUser(userData);
+          })
+          .catch((error) => {
+            setLoading(false);
+          });
+      } else {
+        setLoading(false);
+      }
+    });
+  }, []);
+
+  if (loading) {
+    return <></>;
+  }
   return (
     <ErrorBoundary>
       <NavigationContainer>

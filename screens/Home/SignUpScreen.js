@@ -9,6 +9,8 @@ import {
   SafeAreaView,
 } from 'react-native';
 
+import {firebase} from '../../config/config';
+
 export default function SignUpScreen({navigation}) {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
@@ -19,7 +21,36 @@ export default function SignUpScreen({navigation}) {
     navigation.navigate('LoginScreen');
   };
 
-  const onSignUpPress = () => {};
+  const onSignUpPress = () => {
+    if (password !== confirmPassword) {
+      alert("Passwords don't match.");
+      return;
+    }
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then((response) => {
+        const uid = response.user.uid;
+        const data = {
+          id: uid,
+          email,
+          fullName,
+        };
+        const usersRef = firebase.firestore().collection('users');
+        usersRef
+          .doc(uid)
+          .set(data)
+          .then(() => {
+            navigation.navigate('Home', {user: data});
+          })
+          .catch((error) => {
+            alert(error);
+          });
+      })
+      .catch((error) => {
+        alert(error);
+      });
+  };
   return (
     <View style={styles.container}>
       <SafeAreaView />
