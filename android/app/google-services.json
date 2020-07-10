@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "122031193516",
+    "firebase_url": "https://patientmedicalrecords-788c5.firebaseio.com",
+    "project_id": "patientmedicalrecords-788c5",
+    "storage_bucket": "patientmedicalrecords-788c5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:122031193516:android:949404fbe0e064c1150e09",
+        "android_client_info": {
+          "package_name": "com.patientmedicalrecords"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "122031193516-6t1i6guj94gh8h5kifo2l7j8s2pqf259.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhtYkDXUYZ4KzvRVjIsL5rHPlFhU--PtI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "122031193516-6t1i6guj94gh8h5kifo2l7j8s2pqf259.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
