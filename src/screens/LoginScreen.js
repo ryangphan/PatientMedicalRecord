@@ -9,8 +9,15 @@ import {
   SafeAreaView,
 } from 'react-native';
 
-import {firebase} from '../../config/config';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import Feather from 'react-native-vector-icons/Feather';
+import * as Animatable from 'react-native-animatable';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+
+import colors from '../assets/colors'
+
+import {firebase} from '../../config/config';
+import {normalize} from '../helpers/FontHelper';
 
 export default function LoginScreen({navigation}) {
   const [email, setEmail] = useState('');
@@ -48,108 +55,24 @@ export default function LoginScreen({navigation}) {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={{flex: 1}}>
       <SafeAreaView />
-      <View style={styles.header}>
-        {/* <Image style={styles.logo} source={require('../Assets/logo.png')} /> */}
-      </View>
-      <View style={{flex: 1, width: '100%'}}>
-        <TextInput
-          style={styles.input}
-          placeholder="E-mail"
-          placeholderTextColor="#aaaaaa"
-          onChangeText={(text) => setEmail(text)}
-          value={email}
-          underlineColorAndroid="transparent"
-          autoCapitalize="none"
-        />
-        <TextInput
-          style={styles.input}
-          placeholderTextColor="#aaaaaa"
-          secureTextEntry
-          placeholder="Password"
-          onChangeText={(text) => setPassword(text)}
-          value={password}
-          underlineColorAndroid="transparent"
-          autoCapitalize="none"
-        />
-        <TouchableOpacity style={styles.button} onPress={() => onLoginPress()}>
-          <Text style={styles.buttonTitle}>Log in</Text>
-        </TouchableOpacity>
+      {/* -------header------- */}
+      <Animatable.View style={styles.header} animation="fadeInUpBig">
+        <Text style={styles.textHeader}>Recycle with us!</Text>
+      </Animatable.View>
+      
 
-        <View style={styles.footerView}>
-          <Text style={styles.footerText}>
-            Don't have an account?{' '}
-            <Text onPress={onFooterLinkPress} style={styles.footerLink}>
-              Sign up
-            </Text>
-          </Text>
-        </View>
-      </View>
       <SafeAreaView />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-  },
   header: {
-    height: 60,
-    borderBottomWidth: 0.5,
-    //backgroundColor: 'green',
-    borderBottomColor: 'silver',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
-  },
-  logo: {
-    flex: 1,
-    height: 50,
-    width: 50,
-    alignSelf: 'center',
-    margin: 30,
-  },
-  input: {
-    height: 48,
-    borderRadius: 5,
-    overflow: 'hidden',
-    backgroundColor: 'white',
-    marginTop: 10,
-    marginBottom: 10,
-    marginLeft: 30,
-    marginRight: 30,
-    paddingLeft: 16,
-  },
-  button: {
-    backgroundColor: '#788eec',
-    marginLeft: 30,
-    marginRight: 30,
-    marginTop: 20,
-    height: 48,
-    borderRadius: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  buttonTitle: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  footerView: {
-    flex: 1,
-    alignItems: 'center',
-    marginTop: 20,
-  },
-  footerText: {
-    fontSize: 16,
-    color: '#2e2e2d',
-  },
-  footerLink: {
-    color: '#788eec',
-    fontWeight: 'bold',
-    fontSize: 16,
+    flex: 0.3,
+    justifyContent: 'flex-end',
+    paddingHorizontal: normalize(20),
+    paddingVertical: normalize(50),
   },
 });

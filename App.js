@@ -13,8 +13,10 @@ import {firebase} from './config/config';
 
 import ErrorBoundary from './src/components/ErrorBoundary';
 import HomeScreen from './src/screens/HomeScreen';
+
 import LoginScreen from './src/screens/LoginScreen';
 import SignUpScreen from './src/screens/SignUpScreen';
+import WelcomeScreen from './src/screens/WelcomeScreen';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator, HeaderTitle} from '@react-navigation/stack';
@@ -70,6 +72,15 @@ export default function App() {
             </Stack.Screen>
           ) : (
             <>
+              <Stack.Screen
+                name="WelcomeScreen"
+                component={WelcomeScreen}
+                options={{
+                  headerBackTitleVisible: false,
+                  headerTransparent: true,
+                  headerTitle: '',
+                }}
+              />
               <Stack.Screen
                 name="LoginScreen"
                 component={LoginScreen}
