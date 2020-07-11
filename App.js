@@ -11,10 +11,10 @@ import {
 
 import {firebase} from './config/config';
 
-import ErrorBoundary from './screens/Components/ErrorBoundary';
-import HomeScreen from './screens/Home/HomeScreen';
-import LoginScreen from './screens/Home/LoginScreen';
-import SignUpScreen from './screens/Home/SignUpScreen';
+import ErrorBoundary from './src/components/ErrorBoundary';
+import HomeScreen from './src/screens/HomeScreen';
+import LoginScreen from './src/screens/LoginScreen';
+import SignUpScreen from './src/screens/SignUpScreen';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator, HeaderTitle} from '@react-navigation/stack';
