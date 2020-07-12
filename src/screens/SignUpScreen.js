@@ -11,12 +11,12 @@ import {
 } from 'react-native';
 
 import Icon from 'react-native-ionicons';
-
+import Swiper from 'react-native-swiper';
 import * as Animatable from 'react-native-animatable';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
-import InputField from '../components/InputField';
-import PwdField from '../components/PwdField';
+import Info from '../components/specs/Info';
+import Identification from '../components/specs/Identification'
 
 import {firebase} from '../../config/config';
 import {normalize} from '../helpers/FontHelper';
@@ -29,23 +29,8 @@ export default function SignUpScreen({navigation}) {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isValidEmail, setIsValidEmail] = useState(false);
 
-  const handleEmailTextInputChange = (text) => {
-    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if (re.test(text.toLowerCase())) {
-      setIsValidEmail(true);
-      setEmail(text);
-    } else {
-      setIsValidEmail(false);
-      setEmail('');
-    }
-  };
-
   const validateInputFields = () => {
-    
-  }
-
-  const onFooterLinkPress = () => {
-    navigation.navigate('LoginScreen');
+    console.log(fullName, email, password);
   };
 
   const onSignUpPress = () => {
@@ -87,64 +72,30 @@ export default function SignUpScreen({navigation}) {
             <Text style={styles.textHeader}>Join us</Text>
           </Animatable.View>
           <View style={styles.footer}>
-            <InputField
-              title="Full name"
-              iconName="person"
-              color={colors.secondaryColor}
-              placeHolder="Ex: Jordan Peterson"
-              autoCapitalize="sentences"
-              keyboardType="default"
-              onInputChange={(text) => {
-                setFullName(text);
-              }}>
-              {fullName.length > 0 ? (
-                <Animatable.View animation="bounceIn">
-                  <Icon
-                    name="checkmark-circle"
-                    color="green"
-                    size={normalize(20)}
-                  />
-                </Animatable.View>
-              ) : null}
-            </InputField>
-            <InputField
-              title="Email"
-              iconName="mail"
-              color={colors.secondaryColor}
-              placeHolder="Ex: physivoice@trash.grav"
-              autoCapitalize="none"
-              keyboardType="email-address"
-              onInputChange={(text) => {
-                handleEmailTextInputChange(text);
-              }}>
-              {isValidEmail ? (
-                <Animatable.View animation="bounceIn">
-                  <Icon
-                    name="checkmark-circle"
-                    color="green"
-                    size={normalize(20)}
-                  />
-                </Animatable.View>
-              ) : null}
-            </InputField>
-            <PwdField
-              color={colors.secondaryColor}
-              value={password}
-              onInputChange={(text) => {
-                setPassword(text);
-              }}
-            />
-            <PwdField
-              title="Confirm password"
-              color={colors.secondaryColor}
-              value={confirmPassword}
-              onInputChange={(text) => {
-                setConfirmPassword(text);
-              }}
-            />
+            <Swiper
+              loop={false}
+              dot={<View style={styles.dot} />}
+              activeDot={<View style={styles.activeDot} />}>
+              <Info
+                fullName={fullName}
+                setFullName={setFullName}
+                email={email}
+                setEmail={setEmail}
+                password={password}
+                setPassword={setPassword}
+                confirmPassword={confirmPassword}
+                setConfirmPassword={setConfirmPassword}
+                isValidEmail={isValidEmail}
+                setIsValidEmail={setIsValidEmail}
+              />
+              
+              <Identification/>
+            </Swiper>
             <TouchableOpacity
               style={{alignItems: 'flex-end'}}
-              onPress = {() => {validateInputFields}}>
+              onPress={() => {
+                validateInputFields();
+              }}>
               <View style={styles.button}>
                 <Icon name="arrow-forward" color="white" size={normalize(25)} />
               </View>
@@ -169,7 +120,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     paddingHorizontal: '10%',
-    paddingVertical: screenHeight * 0.07,
+    paddingVertical: screenHeight * 0.068,
   },
   textHeader: {
     color: 'white',
@@ -178,6 +129,7 @@ const styles = StyleSheet.create({
   },
   footer: {
     flex: 1,
+    height: screenHeight / 1.55,
     backgroundColor: 'white',
     borderRadius: 35,
     marginHorizontal: '4%',
@@ -187,10 +139,26 @@ const styles = StyleSheet.create({
   button: {
     width: normalize(100),
     backgroundColor: colors.secondaryColor,
-    marginTop: normalize(15),
+    marginTop: normalize(11),
     borderRadius: 50,
     justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: normalize(15),
+  },
+  dot: {
+    backgroundColor: 'rgba(52,101,217,.4)',
+    width: normalize(8),
+    height: normalize(8),
+    borderRadius: normalize(4),
+    marginHorizontal: normalize(5),
+    marginVertical: normalize(3),
+  },
+  activeDot: {
+    backgroundColor: colors.primaryColor,
+    width: normalize(20),
+    height: normalize(8),
+    borderRadius: normalize(4),
+    marginHorizontal: normalize(5),
+    marginVertical: normalize(3),
   },
 });
