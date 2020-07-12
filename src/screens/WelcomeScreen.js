@@ -1,5 +1,13 @@
 import React, {Component, useState, useEffect, useCallback} from 'react';
-import {Image, View, Text, StyleSheet, Dimensions, Linking} from 'react-native';
+import {
+  Image,
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  Linking,
+  LogBox,
+} from 'react-native';
 
 import Swiper from 'react-native-swiper';
 import * as Animatable from 'react-native-animatable';
@@ -15,6 +23,16 @@ export default function WelcomeScreen({navigation}) {
   const [animationSignUp, setAnimationSignUp] = useState(null);
   const [animationSignIn, setAnimationSignIn] = useState(null);
   const [animationShow, setAnimationShow] = useState(false);
+
+  useEffect(() => {
+    LogBox.ignoreLogs(['Cannot update a component']);
+    const _console = _.clone(console);
+    console.warn = (message) => {
+      if (message.indexOf('Cannot update a component') <= -1) {
+        _console.warn(message);
+      }
+    };
+  });
 
   const resetAnimation = () => {
     setAnimationSignUp(null);
@@ -139,13 +157,19 @@ export default function WelcomeScreen({navigation}) {
                 duration={1500}
                 useNativeDriver>
                 <CustomButton
-                  style={[styles.button, {backgroundColor: 'transparent'}]}
+                  style={[
+                    styles.button,
+                    {
+                      backgroundColor: 'transparent',
+                      borderColor: colors.primaryColor,
+                    },
+                  ]}
                   onPress={() => {
                     navigation.navigate('SignUpScreen');
                   }}
                   title="Sign Up">
                   <Text
-                    style={{fontWeight: 'bold', color: colors.secondaryColor}}>
+                    style={{fontWeight: 'bold', color: colors.primaryColor}}>
                     Sign Up
                   </Text>
                 </CustomButton>
@@ -159,7 +183,10 @@ export default function WelcomeScreen({navigation}) {
                 <CustomButton
                   style={[
                     styles.button,
-                    {backgroundColor: colors.secondaryColor},
+                    {
+                      backgroundColor: colors.secondaryColor,
+                      borderColor: colors.secondaryColor,
+                    },
                   ]}
                   onPress={() => {
                     navigation.navigate('LoginScreen');
@@ -217,7 +244,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   button: {
-    borderColor: colors.secondaryColor,
     borderWidth: 0.5,
     borderRadius: 70,
     alignSelf: 'center',

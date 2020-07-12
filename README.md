@@ -15,4 +15,6 @@
 - `npm install react-navigation-stack`
 - `npm install react-native-swiper`
 - `npm i --save lodash`
+- `npm install react-native-ionicons --save react-native link react-native-ionicons`
+- `npm install --save react-native-material-textfield`
 - `npm install react-native-gesture-handler react-native-reanimated react-native-safe-area-context @react-native-community/masked-view`

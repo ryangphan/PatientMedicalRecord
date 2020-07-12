@@ -1,21 +1,48 @@
 import React, {Component, useState, useEffect} from 'react';
 import {
-  Image,
   View,
   Text,
-  TextInput,
+  Dimensions,
   TouchableOpacity,
   StyleSheet,
   SafeAreaView,
+  ScrollView,
+  TextInput,
 } from 'react-native';
 
+import Icon from 'react-native-ionicons';
+
+import * as Animatable from 'react-native-animatable';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+
+import InputField from '../components/InputField';
+import PwdField from '../components/PwdField';
+
 import {firebase} from '../../config/config';
+import {normalize} from '../helpers/FontHelper';
+import colors from '../assets/colors';
 
 export default function SignUpScreen({navigation}) {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [isValidEmail, setIsValidEmail] = useState(false);
+
+  const handleEmailTextInputChange = (text) => {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (re.test(text.toLowerCase())) {
+      setIsValidEmail(true);
+      setEmail(text);
+    } else {
+      setIsValidEmail(false);
+      setEmail('');
+    }
+  };
+
+  const validateInputFields = () => {
+    
+  }
 
   const onFooterLinkPress = () => {
     navigation.navigate('LoginScreen');
@@ -54,123 +81,116 @@ export default function SignUpScreen({navigation}) {
   return (
     <View style={styles.container}>
       <SafeAreaView />
-      <View style={styles.header}>
-        {/* <Image style={styles.logo} source={require('../Assets/logo.png')} /> */}
-      </View>
-      <View style={{flex: 1, width: '100%'}}>
-        <TextInput
-          style={styles.input}
-          placeholder="Full Name"
-          placeholderTextColor="#aaaaaa"
-          onChangeText={(text) => setFullName(text)}
-          value={fullName}
-          underlineColorAndroid="transparent"
-          autoCapitalize="none"
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="E-mail"
-          placeholderTextColor="#aaaaaa"
-          onChangeText={(text) => setEmail(text)}
-          value={email}
-          underlineColorAndroid="transparent"
-          autoCapitalize="none"
-        />
-        <TextInput
-          style={styles.input}
-          placeholderTextColor="#aaaaaa"
-          secureTextEntry
-          placeholder="Password"
-          onChangeText={(text) => setPassword(text)}
-          value={password}
-          underlineColorAndroid="transparent"
-          autoCapitalize="none"
-        />
-        <TextInput
-          style={styles.input}
-          placeholderTextColor="#aaaaaa"
-          secureTextEntry
-          placeholder="Confirm Password"
-          onChangeText={(text) => setConfirmPassword(text)}
-          value={confirmPassword}
-          underlineColorAndroid="transparent"
-          autoCapitalize="none"
-        />
-        <TouchableOpacity style={styles.button} onPress={() => onSignUpPress()}>
-          <Text style={styles.buttonTitle}>Create account</Text>
-        </TouchableOpacity>
-        <View style={styles.footerView}>
-          <Text style={styles.footerText}>
-            Already got an account?{' '}
-            <Text onPress={onFooterLinkPress} style={styles.footerLink}>
-              Log in
-            </Text>
-          </Text>
-        </View>
+      <View style={{flex: 1}}>
+        <ScrollView style={{flex: 1}}>
+          <Animatable.View style={styles.header} animation="fadeInUpBig">
+            <Text style={styles.textHeader}>Join us</Text>
+          </Animatable.View>
+          <View style={styles.footer}>
+            <InputField
+              title="Full name"
+              iconName="person"
+              color={colors.secondaryColor}
+              placeHolder="Ex: Jordan Peterson"
+              autoCapitalize="sentences"
+              keyboardType="default"
+              onInputChange={(text) => {
+                setFullName(text);
+              }}>
+              {fullName.length > 0 ? (
+                <Animatable.View animation="bounceIn">
+                  <Icon
+                    name="checkmark-circle"
+                    color="green"
+                    size={normalize(20)}
+                  />
+                </Animatable.View>
+              ) : null}
+            </InputField>
+            <InputField
+              title="Email"
+              iconName="mail"
+              color={colors.secondaryColor}
+              placeHolder="Ex: physivoice@trash.grav"
+              autoCapitalize="none"
+              keyboardType="email-address"
+              onInputChange={(text) => {
+                handleEmailTextInputChange(text);
+              }}>
+              {isValidEmail ? (
+                <Animatable.View animation="bounceIn">
+                  <Icon
+                    name="checkmark-circle"
+                    color="green"
+                    size={normalize(20)}
+                  />
+                </Animatable.View>
+              ) : null}
+            </InputField>
+            <PwdField
+              color={colors.secondaryColor}
+              value={password}
+              onInputChange={(text) => {
+                setPassword(text);
+              }}
+            />
+            <PwdField
+              title="Confirm password"
+              color={colors.secondaryColor}
+              value={confirmPassword}
+              onInputChange={(text) => {
+                setConfirmPassword(text);
+              }}
+            />
+            <TouchableOpacity
+              style={{alignItems: 'flex-end'}}
+              onPress = {() => {validateInputFields}}>
+              <View style={styles.button}>
+                <Icon name="arrow-forward" color="white" size={normalize(25)} />
+              </View>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
       </View>
       <SafeAreaView />
     </View>
   );
 }
 
+const screenWidth = Dimensions.get('screen').width;
+const screenHeight = Dimensions.get('screen').height;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
+    backgroundColor: colors.primaryColor,
   },
   header: {
-    height: 60,
-    borderBottomWidth: 0.5,
-    borderBottomColor: 'silver',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
-  },
-  logo: {
     flex: 1,
-    height: 30,
-    width: 30,
-    alignSelf: 'center',
-    margin: 30,
+    justifyContent: 'flex-end',
+    paddingHorizontal: '10%',
+    paddingVertical: screenHeight * 0.07,
   },
-  input: {
-    height: 48,
-    borderRadius: 5,
-    overflow: 'hidden',
+  textHeader: {
+    color: 'white',
+    fontSize: normalize(30),
+    fontWeight: 'bold',
+  },
+  footer: {
+    flex: 1,
     backgroundColor: 'white',
-    marginTop: 10,
-    marginBottom: 10,
-    marginLeft: 30,
-    marginRight: 30,
-    paddingLeft: 16,
+    borderRadius: 35,
+    marginHorizontal: '4%',
+    paddingHorizontal: '5%',
+    paddingVertical: '8.5%',
   },
   button: {
-    backgroundColor: '#788eec',
-    marginLeft: 30,
-    marginRight: 30,
-    marginTop: 20,
-    height: 48,
-    borderRadius: 5,
-    alignItems: 'center',
+    width: normalize(100),
+    backgroundColor: colors.secondaryColor,
+    marginTop: normalize(15),
+    borderRadius: 50,
     justifyContent: 'center',
-  },
-  buttonTitle: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  footerView: {
-    flex: 1,
     alignItems: 'center',
-    marginTop: 20,
-  },
-  footerText: {
-    fontSize: 16,
-    color: '#2e2e2d',
-  },
-  footerLink: {
-    color: '#788eec',
-    fontWeight: 'bold',
-    fontSize: 16,
+    paddingVertical: normalize(15),
   },
 });

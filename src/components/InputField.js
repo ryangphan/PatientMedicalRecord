@@ -1,6 +1,6 @@
 import React from 'react'
 import { Text, View, TextInput, StyleSheet, Image } from 'react-native'
-import FontAwesome from 'react-native-vector-icons/FontAwesome'
+import Icon from 'react-native-ionicons'
 
 import {normalize} from '../helpers/FontHelper'
 
@@ -9,7 +9,7 @@ const InputField = props => {
 		<View>
 			<Text style={[styles.text, {color:props.color}]}>{props.title}</Text>
 			<View style={styles.action}>
-				<FontAwesome name={props.fontAwesomeIcon} color={props.color} size={normalize(20)} />
+				<Icon name={props.iconName} color={props.color} size={normalize(20)} />
 
 				<TextInput
 					placeholder={props.placeHolder}
