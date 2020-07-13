@@ -28,6 +28,9 @@ export default function SignUpScreen({navigation}) {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isValidEmail, setIsValidEmail] = useState(false);
+  const [imageUri, setImageUri] = useState(
+    'https://firebasestorage.googleapis.com/v0/b/patientmedicalrecords-788c5.appspot.com/o/Profile%20Pictures%2Fperson-icon.png?alt=media&token=06a6cd80-7d49-4127-92c5-ce843f6f8c3a',
+  );
 
   const validateInputFields = () => {
     console.log(fullName, email, password);
@@ -88,8 +91,11 @@ export default function SignUpScreen({navigation}) {
                 isValidEmail={isValidEmail}
                 setIsValidEmail={setIsValidEmail}
               />
-              
-              <Identification/>
+
+              <Identification
+                imageUri = {imageUri}
+                setImageUri = {setImageUri}
+              />
             </Swiper>
             <TouchableOpacity
               style={{alignItems: 'flex-end'}}

@@ -7,28 +7,44 @@ import {
   ActivityIndicator,
   Alert,
   StyleSheet,
+  LogBox,
 } from 'react-native';
+import ImagePicker from 'react-native-image-picker';
+import _ from 'lodash';
 
 import {firebase} from '../../config/config';
 import 'firebase/storage';
 
 import colors from '../assets/colors';
+import {normalize} from '../helpers/FontHelper';
 import * as ImageHelpers from '../helpers/ImageHelper';
 
 export default function Identification(props) {
-  const [imageUri, setImageUri] = useState(
-    'https://firebasestorage.googleapis.com/v0/b/patientmedicalrecords-788c5.appspot.com/o/Profile%20Pictures%2Fperson-icon.png?alt=media&token=06a6cd80-7d49-4127-92c5-ce843f6f8c3a',
-  );
   const [isImageLoading, setIsImageLoading] = useState(false);
+
+  useEffect(() => {
+    LogBox.ignoreLogs(['Setting a timer for a long period']);
+    const _console = _.clone(console);
+    console.warn = (message) => {
+      if (message.indexOf('Setting a timer for a long period') <= -1) {
+        _console.warn(message);
+      }
+    };
+  });
 
   const uploadImage = async (image) => {
     setIsImageLoading(true);
-    const ref = firebase.storage().ref('Profile Pictures/' + image.uri);
+    const ref = firebase
+      .storage()
+      .ref(
+        'Profile Pictures/' + image.data.substring(0, 20).replace(/[^a-zA-Z ]/g, ''),
+      );
 
     try {
       //converting to blob
       const blob = await ImageHelpers.prepareBlob(image.uri);
-      const snapshot = await ref.put(blob);
+
+      await ref.put(blob);
 
       let downloadUrl = await ref.getDownloadURL();
 
@@ -42,30 +58,33 @@ export default function Identification(props) {
     }
   };
 
-  const openImageHelper = async (type) => {
-    setIsImageLoading(true);
-    let result = null;
-    if (type === 'files') {
-      result = ImageHelpers.openFiles();
-    } else if (type === 'library') {
-      result = ImageHelpers.openImageLibrary();
-    } else if (type == 'camera') {
-      result = ImageHelpers.openCamera();
+  const openImagePicker = (type) => {
+    let options = {
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+    if (type === 'library') {
+      ImagePicker.launchImageLibrary(options, (response) => {
+        uploadImage(response).then((downloadUrl) => {
+          props.setImageUri(downloadUrl);
+        });
+      });
+    } else if (type === 'camera') {
+      ImagePicker.launchCamera(options, (response) => {
+        uploadImage(response).then((downloadUrl) => {
+          props.setImageUri(downloadUrl);
+        });
+      });
     } else {
-      console.log('Wrong type format');
-      return;
+      console.log('Invalid type format');
+      setIsImageLoading(false);
     }
-    
-    setIsImageLoading(false);
-
-    //  if (result) {
-    //    const downloadUrl = await uploadImage(result);
-    //    setImageUri(downloadUrl);
-    //    setIsImageLoading(false);
-    //  }
   };
 
   const changePicture = () => {
+    setIsImageLoading(true);
     Alert.alert(
       'Loading image',
       'Choose an existing option... ',
@@ -73,23 +92,20 @@ export default function Identification(props) {
         {
           text: 'Cancel',
           style: 'cancel',
-        },
-        {
-          text: 'Files',
           onPress: () => {
-            openImageHelper('files');
+            setIsImageLoading(false);
           },
         },
         {
-          text: 'Library',
+          text: 'Photo Library',
           onPress: () => {
-            openImageHelper('library');
+            openImagePicker('library');
           },
         },
         {
           text: 'Camera',
           onPress: () => {
-            openImageHelper('camera');
+            openImagePicker('camera');
           },
         },
       ],
@@ -115,7 +131,7 @@ export default function Identification(props) {
             <ActivityIndicator size="large" color={colors.primaryColor} />
           </View>
         )}
-        <Image source={{uri: imageUri}} style={styles.image} />
+        <Image source={{uri: props.imageUri}} style={styles.image} />
       </TouchableOpacity>
     </View>
   );
@@ -129,12 +145,13 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     width: height_image,
     height: height_image,
+    borderWidth: 5,
+    borderColor: colors.secondaryColor,
+    borderRadius: normalize(25),
   },
   image: {
     width: '100%',
     height: '100%',
-    borderWidth: 5,
-    borderColor: colors.secondaryColor,
-    borderRadius: 30,
+    borderRadius: normalize(20),
   },
 });
