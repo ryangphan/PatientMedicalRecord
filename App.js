@@ -11,6 +11,7 @@ import {
 
 import {firebase} from './config/config';
 import colors from './src/assets/colors';
+import {userCache} from './src/helpers/cacheHelper';
 
 import ErrorBoundary from './src/components/ErrorBoundary';
 import HomeScreen from './src/screens/HomeScreen';
@@ -40,26 +41,33 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
 
+  isUserLoggedIn = async () => {
+    {
+      const usersRef = firebase.firestore().collection('users');
+      firebase.auth().onAuthStateChanged((user) => {
+        if (user != null) {
+          usersRef
+            .doc(user.uid)
+            .get()
+            .then((document) => {
+              const userData = document.data();
+              //console.log(userData);
+              setLoading(false);
+              setUser(userData);
+            })
+            .catch((error) => {
+              setLoading(false);
+            });
+        } else {
+          setLoading(false);
+          setUser(null);
+        }
+      });
+    }
+  };
+
   useEffect(() => {
-    const usersRef = firebase.firestore().collection('users');
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        usersRef
-          .doc(user.uid)
-          .get()
-          .then((document) => {
-            const userData = document.data();
-            console.log(userData);
-            setLoading(false);
-            setUser(userData);
-          })
-          .catch((error) => {
-            setLoading(false);
-          });
-      } else {
-        setLoading(false);
-      }
-    });
+    isUserLoggedIn();
   }, []);
 
   if (loading) {
@@ -110,7 +118,7 @@ export default function App() {
   );
 }
 
-const HomeStackNavigator = ({navigation, extraData}) => (
+const HomeStackNavigator = ({navigation}) => (
   <Stack.Navigator>
     <Stack.Screen
       options={{headerShown: false}}
@@ -120,7 +128,7 @@ const HomeStackNavigator = ({navigation, extraData}) => (
   </Stack.Navigator>
 );
 
-const HomeTabNavigator = ({route, extraData}) => (
+const HomeTabNavigator = ({route}) => (
   <Tab.Navigator
     tabBarOptions={{
       style: {
@@ -178,5 +186,6 @@ const styles = StyleSheet.create({
 <Stack.Screen name="Home">
               {(props) => <HomeStackNavigator {...props} extraData={user} />}
             </Stack.Screen>
+            <HomeStackNavigator  />
 */
 }

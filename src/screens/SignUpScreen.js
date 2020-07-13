@@ -16,7 +16,7 @@ import * as Animatable from 'react-native-animatable';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 import Info from '../components/specs/Info';
-import Identification from '../components/specs/Identification'
+import Identification from '../components/specs/Identification';
 
 import {firebase} from '../../config/config';
 import {normalize} from '../helpers/FontHelper';
@@ -56,7 +56,7 @@ export default function SignUpScreen({navigation}) {
           .doc(uid)
           .set(data)
           .then(() => {
-            navigation.navigate('Home', {user: data});
+            navigation.navigate('Home');
           })
           .catch((error) => {
             alert(error);
@@ -92,10 +92,7 @@ export default function SignUpScreen({navigation}) {
                 setIsValidEmail={setIsValidEmail}
               />
 
-              <Identification
-                imageUri = {imageUri}
-                setImageUri = {setImageUri}
-              />
+              <Identification imageUri={imageUri} setImageUri={setImageUri} />
             </Swiper>
             <TouchableOpacity
               style={{alignItems: 'flex-end'}}

@@ -5,34 +5,89 @@ import {
   TouchableOpacity,
   StyleSheet,
   SafeAreaView,
+  Image,
+  Dimensions,
 } from 'react-native';
 
+import {userCache} from '../helpers/cacheHelper';
+import {normalize} from '../helpers/FontHelper';
 import {firebase} from '../../config/config';
+import colors from '../assets/colors';
+import Icon from 'react-native-ionicons';
 
-export default function HomeScreen(props) {
+export default function HomeScreen({navigation}) {
   componentDidMount = async () => {
-    console.log(props);
+    let user = await userCache.get('userInfo');
+    //console.log(user);
   };
 
-  onLogoutPress = () => {
-    //firebase.auth().signOut();
-    console.log(props.extraData);
+  onLogoutPress = async () => {
+    try {
+      await firebase.auth().signOut();
+      await userCache.clearAll();
+      await userCache.remove('userInfo');
+    } catch (error) {
+      alert('Unable to sign out right now');
+      console.log(error);
+    }
   };
+
+  onTempPress = () => {};
 
   return (
     <View style={styles.container}>
+      <SafeAreaView />
       <View style={styles.header}>
-        <TouchableOpacity style={styles.button} onPress={() => onLogoutPress()}>
-          <Text style={styles.buttonTitle}>Log Out</Text>
-        </TouchableOpacity>
+        <View style={{flex: 0.7}}></View>
+        <View style={{flex: 0.3}}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => onLogoutPress()}>
+            <Text style={styles.buttonTitle}>Log Out</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-      <View style={{flex: 0.7, backgroundColor: 'red'}}>
-        <View style={{flex: 0.5, backgroundColor: 'yellow'}}></View>
-        <View style={{flex: 0.5, backgroundColor: 'green'}}></View>
+      <View style={{flex: 0.7}}>
+        <View style={{flex: 0.5, flexDirection: 'row'}}>
+          <View style={styles.dashBoard}>
+            <TouchableOpacity
+              style={styles.buttonDB}
+              onPress={() => onTempPress()}>
+              <Text style={styles.buttonTitle}>Log Out</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.dashBoard}>
+            <TouchableOpacity
+              style={styles.buttonDB}
+              onPress={() => onTempPress()}>
+              <Text style={styles.buttonTitle}>Log Out</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View style={{flex: 0.5, flexDirection: 'row'}}>
+          <View style={styles.dashBoard}>
+            <TouchableOpacity
+              style={styles.buttonDB}
+              onPress={() => onTempPress()}>
+              <Text style={styles.buttonTitle}>Log Out</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.dashBoard}>
+            <TouchableOpacity
+              style={styles.buttonDB}
+              onPress={() => onTempPress()}>
+              <Text style={styles.buttonTitle}>Log Out</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
+      <SafeAreaView />
     </View>
   );
 }
+
+const screenWidth = Dimensions.get('screen').width;
+const screenHeight = Dimensions.get('screen').height;
 
 const styles = StyleSheet.create({
   container: {
@@ -43,7 +98,7 @@ const styles = StyleSheet.create({
     //height: 60,
     flex: 0.3,
     borderBottomWidth: 0.5,
-    backgroundColor: 'blue',
+    backgroundColor: colors.borderColor,
     borderBottomColor: 'black',
     //alignItems: 'center',
     //justifyContent: 'center',
@@ -66,6 +121,18 @@ const styles = StyleSheet.create({
     marginLeft: 30,
     marginRight: 30,
     paddingLeft: 16,
+  },
+  dashBoard: {
+    flex: 0.5,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buttonDB: {
+    height: screenHeight * 0.5 * 0.5 * 0.85,
+    width: screenWidth * 0.5 * 0.9,
+    backgroundColor: '#788eec',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   button: {
     backgroundColor: '#788eec',

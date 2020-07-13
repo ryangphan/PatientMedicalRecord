@@ -20,6 +20,7 @@ import PwdField from '../components/PwdField';
 import {firebase} from '../../config/config';
 import {normalize} from '../helpers/FontHelper';
 import colors from '../assets/colors';
+import {userCache} from '../helpers/cacheHelper';
 
 export default function LoginScreen({navigation}) {
   const [email, setEmail] = useState('');
@@ -37,7 +38,7 @@ export default function LoginScreen({navigation}) {
     }
   };
 
-  const onLoginPress = () => {
+  onLoginPress = async () => {
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
@@ -53,7 +54,7 @@ export default function LoginScreen({navigation}) {
               return;
             }
             const user = firestoreDocument.data();
-            navigation.navigate('Home', {user});
+            this.signingIn(user);
           })
           .catch((error) => {
             alert(error);
@@ -62,6 +63,10 @@ export default function LoginScreen({navigation}) {
       .catch((error) => {
         alert(error);
       });
+  };
+
+  signingIn = async (data) => {
+    await userCache.set('userInfo', data);
   };
 
   return (
