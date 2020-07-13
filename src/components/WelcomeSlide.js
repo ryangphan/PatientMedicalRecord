@@ -42,12 +42,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   header: {
-    flex: 0.7,
+    flex: 0.65,
     justifyContent: 'center',
     alignItems: 'center',
   },
   footer: {
-    flex: 0.3,
+    flex: 0.35,
     alignItems: 'center',
     paddingHorizontal: normalize(35),
   },
@@ -56,12 +56,13 @@ const styles = StyleSheet.create({
     width: imageWidth,
   },
   title: {
-    fontSize: normalize(25),
+    fontSize: normalize(45),
     fontWeight: 'bold',
     color: color.primaryColor,
     textAlign: 'center',
   },
   text: {
+    fontSize: normalize(25),
     color: color.secondaryColor,
     textAlign: 'center',
     marginTop: normalize(20),

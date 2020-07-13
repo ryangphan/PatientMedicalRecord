@@ -1,7 +1,5 @@
 import React, {Component, useState, useEffect} from 'react';
-import {
-  View,
-} from 'react-native';
+import {View} from 'react-native';
 
 import Icon from 'react-native-ionicons';
 
@@ -39,7 +37,12 @@ export default function Info(props) {
         }}>
         {props.fullName.length > 0 ? (
           <Animatable.View animation="bounceIn">
-            <Icon name="checkmark-circle" color="green" size={normalize(20)} />
+            <Icon
+              name="checkmark-circle"
+              color="green"
+              size={normalize(35)}
+              style={{marginTop: normalize(34)}}
+            />
           </Animatable.View>
         ) : null}
       </InputField>
@@ -50,13 +53,18 @@ export default function Info(props) {
         placeHolder="Ex: physivoice@trash.grav"
         autoCapitalize="none"
         keyboardType="email-address"
-        value = {props.email}
+        value={props.email}
         onInputChange={(text) => {
           handleEmailTextInputChange(text);
         }}>
         {props.isValidEmail ? (
           <Animatable.View animation="bounceIn">
-            <Icon name="checkmark-circle" color="green" size={normalize(20)} />
+            <Icon
+              name="checkmark-circle"
+              color="green"
+              size={normalize(35)}
+              style={{marginTop: normalize(34)}}
+            />
           </Animatable.View>
         ) : null}
       </InputField>
@@ -64,7 +72,7 @@ export default function Info(props) {
         color={colors.secondaryColor}
         value={props.password}
         onInputChange={(text) => {
-         props.setPassword(text);
+          props.setPassword(text);
         }}
       />
       <PwdField
@@ -72,7 +80,7 @@ export default function Info(props) {
         color={colors.secondaryColor}
         value={props.confirmPassword}
         onInputChange={(text) => {
-         props.setConfirmPassword(text);
+          props.setConfirmPassword(text);
         }}
       />
     </View>

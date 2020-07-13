@@ -103,7 +103,7 @@ export default function SignUpScreen({navigation}) {
                 validateInputFields();
               }}>
               <View style={styles.button}>
-                <Icon name="arrow-forward" color="white" size={normalize(25)} />
+                <Icon name="arrow-forward" color="white" size={normalize(40)} />
               </View>
             </TouchableOpacity>
           </View>
@@ -130,40 +130,39 @@ const styles = StyleSheet.create({
   },
   textHeader: {
     color: 'white',
-    fontSize: normalize(30),
+    fontSize: normalize(42),
     fontWeight: 'bold',
   },
   footer: {
     flex: 1,
-    height: screenHeight / 1.55,
+    height: screenHeight / 1.42,
     backgroundColor: 'white',
     borderRadius: 35,
     marginHorizontal: '4%',
-    paddingHorizontal: '5%',
-    paddingVertical: '8.5%',
+    paddingHorizontal: '8%',
+    paddingVertical: '6.8%',
   },
   button: {
-    width: normalize(100),
+    width: screenWidth / 5,
+    height: screenHeight / 20,
     backgroundColor: colors.secondaryColor,
-    marginTop: normalize(11),
     borderRadius: 50,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: normalize(15),
   },
   dot: {
     backgroundColor: 'rgba(52,101,217,.4)',
-    width: normalize(8),
-    height: normalize(8),
-    borderRadius: normalize(4),
+    width: normalize(14),
+    height: normalize(14),
+    borderRadius: normalize(7),
     marginHorizontal: normalize(5),
     marginVertical: normalize(3),
   },
   activeDot: {
     backgroundColor: colors.primaryColor,
-    width: normalize(20),
-    height: normalize(8),
-    borderRadius: normalize(4),
+    width: normalize(30),
+    height: normalize(14),
+    borderRadius: normalize(7),
     marginHorizontal: normalize(5),
     marginVertical: normalize(3),
   },
