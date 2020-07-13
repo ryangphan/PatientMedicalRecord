@@ -20,6 +20,6 @@
 - `npm install react-native-ionicons --save react-native link react-native-ionicons`
 - `npm install --save react-native-material-textfield`
 - `npm install --save react-native-permissions`
-- `npm install react-native-image-picker` 
+- `npm install react-native-image-picker react-native link react-native-image-picker` 
 refer this link for post installation https://github.com/react-native-community/react-native-image-picker/blob/master/docs/Install.md
 
