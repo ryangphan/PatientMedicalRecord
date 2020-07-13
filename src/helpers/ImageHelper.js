@@ -1,44 +1,79 @@
-import * as Permissions from 'react-native-permissions';
 import * as ImagePicker from 'react-native-image-picker';
-import { Platform } from "react-native";
 
-export const openImageLibrary = async () => {
-  const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-  if (status !== "granted") {
-    alert("Sorry, we need camera roll permission to select an image");
-    return false;
-  } else {
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [1, 1],
-      base64: true,
-    });
+export const openFiles = () => {
+  let options = {
+    title: 'Select From File',
+    customButtons: [
+      {name: 'customOptionKey', title: 'Choose Photo from Custom Option'},
+    ],
+    storageOptions: {
+      skipBackup: true,
+      path: 'images',
+    },
+  };
+  ImagePicker.showImagePicker(options, (response) => {
+    if (response.didCancel) {
+      console.log('User cancelled image picker');
+    } else if (response.error) {
+      console.log('ImagePicker Error: ', response.error);
+    } else if (response.customButton) {
+      console.log('User tapped custom button: ', response.customButton);
+      alert(response.customButton);
+    } else {
+      const source = {uri: response.uri};
 
-    return !result.cancelled ? result : false;
-  }
+      return response; // filepath: reponse, fileData: reponse.data, fileUri: response.uri
+    }
+  });
 };
 
-export const openCamera = async () => {
-  const { status } = await Permissions.askAsync(
-    Permissions.CAMERA_ROLL,
-    Permissions.CAMERA
-  );
+export const openCamera = () => {
+  let options = {
+    storageOptions: {
+      skipBackup: true,
+      path: 'images',
+    },
+  };
+  ImagePicker.launchCamera(options, (response) => {
+    if (response.didCancel) {
+      console.log('User cancelled image picker');
+    } else if (response.error) {
+      console.log('ImagePicker Error: ', response.error);
+    } else if (response.customButton) {
+      console.log('User tapped custom button: ', response.customButton);
+      alert(response.customButton);
+    } else {
+      const source = {uri: response.uri};
 
-  if (status !== "granted") {
-    alert("Sorry, we need camera roll & camera permission to select an image");
-    return false;
-  } else {
-    const result = await ImagePicker.launchCameraAsync({
-      quality: 0.1,
-      base64: true,
-      allowsEditing: Platform.OS == "ios" ? false : true,
-      aspect: [4, 3],
-    });
-
-    return !result.cancelled ? result : false;
-  }
+      return response;
+    }
+  });
 };
+
+export const openImageLibrary = () => {
+  let options = {
+    storageOptions: {
+      skipBackup: true,
+      path: 'images',
+    },
+  };
+  ImagePicker.launchImageLibrary(options, (response) => {
+    if (response.didCancel) {
+      console.log('User cancelled image picker');
+    } else if (response.error) {
+      console.log('ImagePicker Error: ', response.error);
+    } else if (response.customButton) {
+      console.log('User tapped custom button: ', response.customButton);
+      alert(response.customButton);
+    } else {
+      // const source = {uri: response.uri};
+      console.log('response', JSON.stringify(response));
+
+      return response;
+    }
+  });
+};
+
 export const prepareBlob = async (imageUri) => {
   const blob = await new Promise((resolve, reject) => {
     //new request
@@ -52,12 +87,12 @@ export const prepareBlob = async (imageUri) => {
     //error threw new error
     xml.onerror = function (e) {
       console.log(e);
-      reject(new TypeError("Image Upload failed"));
+      reject(new TypeError('Image Upload failed'));
     };
 
     //set the response type to get the blob
-    xml.responseType = "blob";
-    xml.open("GET", imageUri, true);
+    xml.responseType = 'blob';
+    xml.open('GET', imageUri, true);
     //send the request
     xml.send();
   });
