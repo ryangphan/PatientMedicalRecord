@@ -110,7 +110,7 @@ export default function LoginScreen({navigation}) {
             <TouchableOpacity
               style={{alignItems: 'flex-end'}}
               onPress={() => {
-                onLoginPress;
+                onLoginPress();
               }}>
               <View style={styles.button}>
                 <Icon name="arrow-forward" color="white" size={normalize(40)} />

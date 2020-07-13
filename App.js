@@ -10,9 +10,11 @@ import {
 } from 'react-native';
 
 import {firebase} from './config/config';
+import colors from './src/assets/colors';
 
 import ErrorBoundary from './src/components/ErrorBoundary';
 import HomeScreen from './src/screens/HomeScreen';
+import NotificationScreen from './src/screens/NotificationScreen';
 
 import LoginScreen from './src/screens/LoginScreen';
 import SignUpScreen from './src/screens/SignUpScreen';
@@ -47,6 +49,7 @@ export default function App() {
           .get()
           .then((document) => {
             const userData = document.data();
+            console.log(userData);
             setLoading(false);
             setUser(userData);
           })
@@ -68,7 +71,7 @@ export default function App() {
         <Stack.Navigator>
           {user ? (
             <Stack.Screen name="Home">
-              {(props) => <HomeScreen {...props} extraData={user} />}
+              {(props) => <HomeStackNavigator {...props} extraData={user} />}
             </Stack.Screen>
           ) : (
             <>
@@ -106,6 +109,30 @@ export default function App() {
     </ErrorBoundary>
   );
 }
+
+const HomeStackNavigator = ({navigation, extraData}) => (
+  <Stack.Navigator>
+    <Stack.Screen
+      options={{headerShown: false}}
+      name="Home Navigator"
+      component={HomeTabNavigator}
+    />
+  </Stack.Navigator>
+);
+
+const HomeTabNavigator = ({route, extraData}) => (
+  <Tab.Navigator
+    tabBarOptions={{
+      style: {
+        backgroundColor: colors.bgMain,
+      },
+      activeTintColor: colors.logoColor,
+      inactiveTintColor: colors.bgTextInput,
+    }}>
+    <Tab.Screen name="Home Screen" component={HomeScreen} />
+    <Tab.Screen name="Notification Screen" component={NotificationScreen} />
+  </Tab.Navigator>
+);
 
 const styles = StyleSheet.create({
   scrollView: {
@@ -145,3 +172,11 @@ const styles = StyleSheet.create({
     textAlign: 'right',
   },
 });
+
+{
+  /*
+<Stack.Screen name="Home">
+              {(props) => <HomeStackNavigator {...props} extraData={user} />}
+            </Stack.Screen>
+*/
+}
