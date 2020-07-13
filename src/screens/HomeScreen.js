@@ -9,16 +9,27 @@ import {
 
 import {firebase} from '../../config/config';
 
-export default function HomeScreen({navigation}) {
+export default function HomeScreen(props) {
+  componentDidMount = async () => {
+    console.log(props);
+  };
+
   onLogoutPress = () => {
-    firebase.auth().signOut();
+    //firebase.auth().signOut();
+    console.log(props.extraData);
   };
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.button} onPress={() => onLogoutPress()}>
-        <Text style={styles.buttonTitle}>Log Out</Text>
-      </TouchableOpacity>
+      <View style={styles.header}>
+        <TouchableOpacity style={styles.button} onPress={() => onLogoutPress()}>
+          <Text style={styles.buttonTitle}>Log Out</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={{flex: 0.7, backgroundColor: 'red'}}>
+        <View style={{flex: 0.5, backgroundColor: 'yellow'}}></View>
+        <View style={{flex: 0.5, backgroundColor: 'green'}}></View>
+      </View>
     </View>
   );
 }
@@ -26,16 +37,17 @@ export default function HomeScreen({navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
+    //alignItems: 'center',
   },
   header: {
-    height: 60,
+    //height: 60,
+    flex: 0.3,
     borderBottomWidth: 0.5,
-    //backgroundColor: 'green',
-    borderBottomColor: 'silver',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
+    backgroundColor: 'blue',
+    borderBottomColor: 'black',
+    //alignItems: 'center',
+    //justifyContent: 'center',
+    //flexDirection: 'row',
   },
   logo: {
     flex: 1,
