@@ -14,7 +14,7 @@
 - `npm install react-native-animatable`
 - `npm install react-native-vector-icons`
 - `npm install react-navigation-stack`
-###### added more
+### added more
 - `npm install react-native-swiper`
 - `npm i --save lodash`
 - `npm install react-native-ionicons --save react-native link react-native-ionicons`
@@ -22,4 +22,5 @@
 - `npm install --save react-native-permissions`
 - `npm install react-native-image-picker react-native link react-native-image-picker` 
 refer this link for post installation https://github.com/react-native-community/react-native-image-picker/blob/master/docs/Install.md
-
+### updated on July 14th 2020:
+- `npm install --save react-native-cache`
