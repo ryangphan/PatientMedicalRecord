@@ -72,22 +72,22 @@ export default function WelcomeScreen({navigation}) {
       <View style={{flex: 1}}>
         <WelcomeSlide
           imageSrc={require('../assets/swiper_bg.png')}
-          title="DIAGNOSIS MADE EASY"
-          text="Spend less time wondering, more time connecting. PhysiVoice takes the
-          complexity out of subjective assessment."
+          title="OUR MISSION"
+          text="Our mission is to Create, Change and to Heal, by bridging the patient-practitioner gap"
         />
       </View>
 
       <View style={{flex: 1}}>
         <WelcomeSlide
           imageSrc={require('../assets/swiper_bg1.png')}
-          title="OUR MISSION"
-          text="Our mission is to Create, Change and to Heal, by bridging the patient-practitioner gap."
+          title="DIAGNOSIS MADE EASY"
+          text="Spend less time wondering, more time connecting. PhysiVoice takes the
+          complexity out of subjective assessment"
         />
       </View>
 
       <View style={{flex: 1}}>
-        <View style={{flex: 0.5, justifyContent: 'center'}}>
+        <View style={{flex: 0.4, justifyContent: 'center'}}>
           <Image
             source={require('../assets/logo.png')}
             style={styles.image1}
@@ -100,27 +100,28 @@ export default function WelcomeScreen({navigation}) {
           />
         </View>
         {animationShow ? (
-          <View style={{flex: 0.5, paddingHorizontal: normalize(35)}}>
+          <View style={{flex: 0.6, paddingHorizontal: normalize(35)}}>
             <Animatable.View
               animation={animationSignUp}
               delay={0}
-              duration={1500}
+              duration={800}
               useNativeDriver
               style={{flex: 0.3}}>
               <Text style={styles.title}>
-                Join us in our mission to transform healthcare to extraordinary.
+                Join us in our mission to transform healthcare to extraordinary
               </Text>
             </Animatable.View>
 
             <Animatable.View
               animation={animationSignIn}
               delay={0}
-              duration={1500}
+              duration={1300}
               useNativeDriver
               style={{
                 flex: 0.1,
                 flexDirection: 'row',
                 justifyContent: 'center',
+                marginTop: normalize(15)
               }}>
               <TouchableOpacity
                 onPress={() => {
@@ -128,7 +129,7 @@ export default function WelcomeScreen({navigation}) {
                 }}>
                 <Image
                   source={require('../assets/icons8-linkedin-48.png')}
-                  style={{marginHorizontal: normalize(7)}}
+                  style={{marginHorizontal: normalize(10), width: normalize(45), height: normalize(45) }}
                   resizeMode={'contain'}
                 />
               </TouchableOpacity>
@@ -138,7 +139,7 @@ export default function WelcomeScreen({navigation}) {
                 }}>
                 <Image
                   source={require('../assets/icons8-facebook-40.png')}
-                  style={{marginHorizontal: normalize(7)}}
+                  style={{marginHorizontal: normalize(10) ,width: normalize(45), height: normalize(45)}}
                   resizeMode={'contain'}
                 />
               </TouchableOpacity>
@@ -213,19 +214,19 @@ const styles = StyleSheet.create({
   },
   dot: {
     backgroundColor: 'rgba(52,101,217,.4)',
-    width: normalize(8),
-    height: normalize(8),
-    borderRadius: normalize(4),
+    width: normalize(16),
+    height: normalize(16),
+    borderRadius: normalize(8),
     marginHorizontal: normalize(5),
-    marginVertical: normalize(3),
+    marginVertical: normalize(5),
   },
   activeDot: {
     backgroundColor: colors.primaryColor,
-    width: normalize(20),
-    height: normalize(8),
-    borderRadius: normalize(4),
+    width: normalize(30),
+    height: normalize(16),
+    borderRadius: normalize(8),
     marginHorizontal: normalize(5),
-    marginVertical: normalize(3),
+    marginVertical: normalize(5),
   },
   image1: {
     height: height / 8,
@@ -238,7 +239,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   title: {
-    fontSize: normalize(25),
+    fontSize: normalize(45),
     fontWeight: 'bold',
     color: colors.primaryColor,
     textAlign: 'center',
