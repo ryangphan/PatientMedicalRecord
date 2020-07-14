@@ -33,6 +33,12 @@ export default function HomeScreen({navigation}) {
   };
 
   onTempPress = () => {};
+  onSettingPress = () => {
+    navigation.navigate('Setting Screen');
+  };
+  onQuestionairePress = () => {
+    navigation.navigate('Questionaire Screen');
+  };
 
   return (
     <View style={styles.container}>
@@ -53,14 +59,14 @@ export default function HomeScreen({navigation}) {
             <TouchableOpacity
               style={styles.buttonDB}
               onPress={() => onTempPress()}>
-              <Text style={styles.buttonTitle}>Log Out</Text>
+              <Text style={styles.buttonTitle}>Inquiry Form</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.dashBoard}>
             <TouchableOpacity
               style={styles.buttonDB}
-              onPress={() => onTempPress()}>
-              <Text style={styles.buttonTitle}>Log Out</Text>
+              onPress={() => onQuestionairePress()}>
+              <Text style={styles.buttonTitle}>Questionaire</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -68,8 +74,8 @@ export default function HomeScreen({navigation}) {
           <View style={styles.dashBoard}>
             <TouchableOpacity
               style={styles.buttonDB}
-              onPress={() => onTempPress()}>
-              <Text style={styles.buttonTitle}>Log Out</Text>
+              onPress={() => onSettingPress()}>
+              <Text style={styles.buttonTitle}>Setting</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.dashBoard}>
@@ -139,7 +145,7 @@ const styles = StyleSheet.create({
     marginLeft: 30,
     marginRight: 30,
     marginTop: 20,
-    height: 48,
+    height: normalize(48),
     borderRadius: 5,
     alignItems: 'center',
     justifyContent: 'center',

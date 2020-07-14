@@ -20,6 +20,8 @@ import NotificationScreen from './src/screens/NotificationScreen';
 import LoginScreen from './src/screens/LoginScreen';
 import SignUpScreen from './src/screens/SignUpScreen';
 import WelcomeScreen from './src/screens/WelcomeScreen';
+import SettingScreen from './src/screens/SettingScreen';
+import QuestionaireScreen from './src/screens/Questionaire';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator, HeaderTitle} from '@react-navigation/stack';
@@ -70,49 +72,42 @@ export default function App() {
     isUserLoggedIn();
   }, []);
 
-  if (loading) {
-    return <></>;
-  }
   return (
     <ErrorBoundary>
       <NavigationContainer>
-        <Stack.Navigator>
-          {user ? (
-            <Stack.Screen name="Home">
-              {(props) => <HomeStackNavigator {...props} extraData={user} />}
-            </Stack.Screen>
-          ) : (
-            <>
-              <Stack.Screen
-                name="WelcomeScreen"
-                component={WelcomeScreen}
-                options={{
-                  headerBackTitleVisible: false,
-                  headerTransparent: true,
-                  headerTitle: '',
-                }}
-              />
-              <Stack.Screen
-                name="LoginScreen"
-                component={LoginScreen}
-                options={{
-                  headerBackTitleVisible: false,
-                  headerTransparent: true,
-                  headerTitle: '',
-                }}
-              />
-              <Stack.Screen
-                name="SignUpScreen"
-                component={SignUpScreen}
-                options={{
-                  headerBackTitleVisible: false,
-                  headerTransparent: true,
-                  headerTitle: '',
-                }}
-              />
-            </>
-          )}
-        </Stack.Navigator>
+        {user ? (
+          <HomeStackNavigator />
+        ) : (
+          <Stack.Navigator>
+            <Stack.Screen
+              name="WelcomeScreen"
+              component={WelcomeScreen}
+              options={{
+                headerBackTitleVisible: false,
+                headerTransparent: true,
+                headerTitle: '',
+              }}
+            />
+            <Stack.Screen
+              name="LoginScreen"
+              component={LoginScreen}
+              options={{
+                headerBackTitleVisible: false,
+                headerTransparent: true,
+                headerTitle: '',
+              }}
+            />
+            <Stack.Screen
+              name="SignUpScreen"
+              component={SignUpScreen}
+              options={{
+                headerBackTitleVisible: false,
+                headerTransparent: true,
+                headerTitle: '',
+              }}
+            />
+          </Stack.Navigator>
+        )}
       </NavigationContainer>
     </ErrorBoundary>
   );
@@ -121,10 +116,12 @@ export default function App() {
 const HomeStackNavigator = ({navigation}) => (
   <Stack.Navigator>
     <Stack.Screen
-      options={{headerShown: false}}
+      //options={{headerShown: false}}
       name="Home Navigator"
       component={HomeTabNavigator}
     />
+    <Stack.Screen name="Setting Screen" component={SettingScreen} />
+    <Stack.Screen name="Questionaire Screen" component={QuestionaireScreen} />
   </Stack.Navigator>
 );
 
