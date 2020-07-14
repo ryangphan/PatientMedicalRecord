@@ -66,6 +66,7 @@ export default function LoginScreen({navigation}) {
   };
 
   signingIn = async (data) => {
+    console.log(data);
     await userCache.set('userInfo', data);
   };
 
@@ -109,7 +110,9 @@ export default function LoginScreen({navigation}) {
             />
 
             <TouchableOpacity>
-              <Text style={{color: '#009bd1', fontSize: normalize(23)}}>Forgot password ?</Text>
+              <Text style={{color: '#009bd1', fontSize: normalize(23)}}>
+                Forgot password ?
+              </Text>
             </TouchableOpacity>
 
             <TouchableOpacity

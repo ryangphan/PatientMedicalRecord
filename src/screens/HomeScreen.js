@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -15,12 +15,15 @@ import {firebase} from '../../config/config';
 import colors from '../assets/colors';
 import Icon from 'react-native-ionicons';
 
-export default function HomeScreen({navigation}) {
-  componentDidMount = async () => {
-    let user = await userCache.get('userInfo');
-    //console.log(user);
-  };
+class HomeScreen extends Component {
+  //const [user, setUser] = useState(null);
 
+  constructor() {
+    super();
+    this.state = {
+      user: {},
+    };
+  }
   onLogoutPress = async () => {
     try {
       await firebase.auth().signOut();
@@ -32,68 +35,131 @@ export default function HomeScreen({navigation}) {
     }
   };
 
-  onTempPress = () => {};
-  onSettingPress = () => {
-    navigation.navigate('Setting Screen');
-  };
-  onQuestionairePress = () => {
-    navigation.navigate('Questionaire Screen');
+  componentDidMount = async () => {
+    let temp = await userCache.get('userInfo');
+    this.setState({user: temp});
   };
 
-  return (
-    <View style={styles.container}>
-      <SafeAreaView />
-      <View style={styles.header}>
-        <View style={{flex: 0.7}}></View>
-        <View style={{flex: 0.3}}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => onLogoutPress()}>
-            <Text style={styles.buttonTitle}>Log Out</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-      <View style={{flex: 0.7}}>
-        <View style={{flex: 0.5, flexDirection: 'row'}}>
-          <View style={styles.dashBoard}>
-            <TouchableOpacity
-              style={styles.buttonDB}
-              onPress={() => onTempPress()}>
-              <Text style={styles.buttonTitle}>Inquiry Form</Text>
-            </TouchableOpacity>
+  onTempPress = () => {};
+  onUserProfilePress = () => {};
+  onSettingPress = () => {
+    this.props.navigation.navigate('Setting Screen');
+  };
+  onQuestionairePress = () => {
+    this.props.navigation.navigate('Questionaire Screen');
+  };
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <SafeAreaView />
+        <View style={styles.header}>
+          <View style={{flex: 0.7, flexDirection: 'row'}}>
+            <View style={styles.imageContainer}>
+              <TouchableOpacity
+                disabled={false}
+                style={{flex: 1}}
+                onPress={() => this.onUserProfilePress()}>
+                {this.state.user.image ? (
+                  <Image
+                    source={{uri: user.image}}
+                    style={styles.image}
+                    // indicator={ProgressPie}
+                    indicatorProps={{
+                      size: 40,
+                      borderWidth: 0,
+                      color: colors.logoColor,
+                      unfilledColor: 'rgba(200,200,200,0.2)',
+                    }}
+                    imageStyle={{borderRadius: 35}}
+                  />
+                ) : (
+                  <Image
+                    source={require('../assets/icon.png')}
+                    style={styles.image}
+                  />
+                )}
+              </TouchableOpacity>
+            </View>
+            <View style={{flex: 0.6}}>
+              <Text style={styles.textInput}>
+                Full Name: {this.state.user.fullName}
+              </Text>
+              <Text style={styles.textInput}>
+                Email: {this.state.user.email}{' '}
+              </Text>
+            </View>
           </View>
-          <View style={styles.dashBoard}>
+          <View style={{flex: 0.3, alignContent: 'center'}}>
             <TouchableOpacity
-              style={styles.buttonDB}
-              onPress={() => onQuestionairePress()}>
-              <Text style={styles.buttonTitle}>Questionaire</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-        <View style={{flex: 0.5, flexDirection: 'row'}}>
-          <View style={styles.dashBoard}>
-            <TouchableOpacity
-              style={styles.buttonDB}
-              onPress={() => onSettingPress()}>
-              <Text style={styles.buttonTitle}>Setting</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.dashBoard}>
-            <TouchableOpacity
-              style={styles.buttonDB}
-              onPress={() => onTempPress()}>
+              style={styles.button}
+              onPress={() => this.onLogoutPress()}>
               <Text style={styles.buttonTitle}>Log Out</Text>
             </TouchableOpacity>
           </View>
         </View>
+        <View style={{flex: 0.7}}>
+          <View style={{flex: 0.5, flexDirection: 'row'}}>
+            <View style={styles.dashBoard}>
+              <TouchableOpacity
+                style={styles.buttonDB}
+                onPress={() => this.onTempPress()}>
+                <Icon
+                  name="airplane"
+                  color="white"
+                  size={normalize(50)}
+                  style={{marginBottom: normalize(25)}}
+                />
+                <Text style={styles.buttonTitle}>Inquiry Form</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.dashBoard}>
+              <TouchableOpacity
+                style={styles.buttonDB}
+                onPress={() => this.onQuestionairePress()}>
+                <Icon
+                  name="ios-home"
+                  color="white"
+                  size={normalize(50)}
+                  style={{marginBottom: normalize(25)}}
+                />
+                <Text style={styles.buttonTitle}>Questionaire</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          <View style={{flex: 0.5, flexDirection: 'row'}}>
+            <View style={styles.dashBoard}>
+              <TouchableOpacity
+                style={styles.buttonDB}
+                onPress={() => this.onSettingPress()}>
+                <Icon
+                  name="ios-settings"
+                  color="white"
+                  size={normalize(50)}
+                  style={{marginBottom: normalize(25)}}
+                />
+                <Text style={styles.buttonTitle}>Setting</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.dashBoard}>
+              <TouchableOpacity
+                style={styles.buttonDB}
+                onPress={() => this.onTempPress()}>
+                <Text style={styles.buttonTitle}>Log Out</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+        <SafeAreaView />
       </View>
-      <SafeAreaView />
-    </View>
-  );
+    );
+  }
 }
+export default HomeScreen;
 
 const screenWidth = Dimensions.get('screen').width;
 const screenHeight = Dimensions.get('screen').height;
+const height_image = screenHeight * 0.5 * 0.5 * 0.5;
 
 const styles = StyleSheet.create({
   container: {
@@ -144,7 +210,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#788eec',
     marginLeft: 30,
     marginRight: 30,
-    marginTop: 20,
+    marginTop: normalize(10),
     height: normalize(48),
     borderRadius: 5,
     alignItems: 'center',
@@ -169,5 +235,61 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16,
   },
+  imageContainer: {
+    flex: 0.4,
+    height: height_image,
+    alignSelf: 'center',
+    marginVertical: normalize(40),
+  },
+  image: {
+    width: '80%',
+    height: '100%',
+    borderWidth: 5,
+    borderColor: 'grey',
+    borderRadius: 30,
+    marginLeft: normalize(10),
+  },
+  textInput: {
+    flex: 1,
+    backgroundColor: 'transparent',
+
+    width: '100%',
+
+    fontSize: normalize(30),
+    fontWeight: '200',
+    color: 'black',
+    padding: normalize(10),
+    marginHorizontal: normalize(10),
+    marginVertical: normalize(15),
+  },
 });
 //rnpce
+
+{
+  /* 
+  <TouchableOpacity
+              disabled={false}
+              style={{flex: 1}}
+              onPress={() => this.onUserProfilePress()}>
+              {user.image ? (
+                <Image
+                  source={{uri: user.image}}
+                  style={styles.image}
+                  // indicator={ProgressPie}
+                  indicatorProps={{
+                    size: 40,
+                    borderWidth: 0,
+                    color: colors.logoColor,
+                    unfilledColor: 'rgba(200,200,200,0.2)',
+                  }}
+                  imageStyle={{borderRadius: 35}}
+                />
+              ) : (
+                <Image
+                  source={require('../assets/icon.png')}
+                  style={styles.image}
+                />
+              )}
+            </TouchableOpacity>
+*/
+}

@@ -44,28 +44,27 @@ export default function App() {
   const [user, setUser] = useState(null);
 
   isUserLoggedIn = async () => {
-    {
-      const usersRef = firebase.firestore().collection('users');
-      firebase.auth().onAuthStateChanged((user) => {
-        if (user != null) {
-          usersRef
-            .doc(user.uid)
-            .get()
-            .then((document) => {
-              const userData = document.data();
-              //console.log(userData);
-              setLoading(false);
-              setUser(userData);
-            })
-            .catch((error) => {
-              setLoading(false);
-            });
-        } else {
-          setLoading(false);
-          setUser(null);
-        }
-      });
-    }
+    const usersRef = firebase.firestore().collection('users');
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user != null) {
+        usersRef
+          .doc(user.uid)
+          .get()
+          .then((document) => {
+            const userData = document.data();
+            //console.log(userData);
+            setLoading(false);
+            setUser(userData);
+          })
+          .catch((error) => {
+            setLoading(true);
+            console.log(error);
+          });
+      } else {
+        setLoading(false);
+        setUser(null);
+      }
+    });
   };
 
   useEffect(() => {
@@ -73,43 +72,41 @@ export default function App() {
   }, []);
 
   return (
-    <ErrorBoundary>
-      <NavigationContainer>
-        {user ? (
-          <HomeStackNavigator />
-        ) : (
-          <Stack.Navigator>
-            <Stack.Screen
-              name="WelcomeScreen"
-              component={WelcomeScreen}
-              options={{
-                headerBackTitleVisible: false,
-                headerTransparent: true,
-                headerTitle: '',
-              }}
-            />
-            <Stack.Screen
-              name="LoginScreen"
-              component={LoginScreen}
-              options={{
-                headerBackTitleVisible: false,
-                headerTransparent: true,
-                headerTitle: '',
-              }}
-            />
-            <Stack.Screen
-              name="SignUpScreen"
-              component={SignUpScreen}
-              options={{
-                headerBackTitleVisible: false,
-                headerTransparent: true,
-                headerTitle: '',
-              }}
-            />
-          </Stack.Navigator>
-        )}
-      </NavigationContainer>
-    </ErrorBoundary>
+    <NavigationContainer>
+      {user ? (
+        <HomeStackNavigator />
+      ) : (
+        <Stack.Navigator>
+          <Stack.Screen
+            name="WelcomeScreen"
+            component={WelcomeScreen}
+            options={{
+              headerBackTitleVisible: false,
+              headerTransparent: true,
+              headerTitle: '',
+            }}
+          />
+          <Stack.Screen
+            name="LoginScreen"
+            component={LoginScreen}
+            options={{
+              headerBackTitleVisible: false,
+              headerTransparent: true,
+              headerTitle: '',
+            }}
+          />
+          <Stack.Screen
+            name="SignUpScreen"
+            component={SignUpScreen}
+            options={{
+              headerBackTitleVisible: false,
+              headerTransparent: true,
+              headerTitle: '',
+            }}
+          />
+        </Stack.Navigator>
+      )}
+    </NavigationContainer>
   );
 }
 
@@ -117,7 +114,7 @@ const HomeStackNavigator = ({navigation}) => (
   <Stack.Navigator>
     <Stack.Screen
       //options={{headerShown: false}}
-      name="Home Navigator"
+      name="Dash Board"
       component={HomeTabNavigator}
     />
     <Stack.Screen name="Setting Screen" component={SettingScreen} />
@@ -180,9 +177,25 @@ const styles = StyleSheet.create({
 
 {
   /*
-<Stack.Screen name="Home">
-              {(props) => <HomeStackNavigator {...props} extraData={user} />}
-            </Stack.Screen>
-            <HomeStackNavigator  />
+const usersRef = firebase.firestore().collection('users');
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user != null) {
+        usersRef
+          .doc(user.uid)
+          .get()
+          .then((document) => {
+            const userData = document.data();
+            //console.log(userData);
+            setLoading(false);
+            setUser(userData);
+          })
+          .catch((error) => {
+            setLoading(false);
+          });
+      } else {
+        setLoading(false);
+        setUser(null);
+      }
+    });
 */
 }
