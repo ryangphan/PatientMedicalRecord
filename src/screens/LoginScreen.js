@@ -7,12 +7,14 @@ import {
   StyleSheet,
   SafeAreaView,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 
 import Icon from 'react-native-ionicons';
 
 import * as Animatable from 'react-native-animatable';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import Snackbar from 'react-native-snackbar';
 
 import InputField from '../components/InputField';
 import PwdField from '../components/PwdField';
@@ -24,8 +26,15 @@ import {userCache} from '../helpers/cacheHelper';
 
 export default function LoginScreen({navigation}) {
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [isValidEmail, setIsValidEmail] = useState(false);
+  const [isEmailError, setIsEmailError] = useState(false);
+  const [emailErrorText, setEmailErrorText] = useState('');
+
+  const [password, setPassword] = useState('');
+  const [isPasswordError, setIsPasswordError] = useState(false);
+  const [passwordErrorText, setPasswordErrorText] = useState('');
+
+  const [isButtonLoading, setIsButtonLoading] = useState(false);
 
   const handleEmailTextInputChange = (text) => {
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -34,11 +43,11 @@ export default function LoginScreen({navigation}) {
       setEmail(text);
     } else {
       setIsValidEmail(false);
-      setEmail('');
     }
   };
 
-  onLoginPress = async () => {
+  const onLoginPress = () => {
+    setIsButtonLoading(true);
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
@@ -49,23 +58,68 @@ export default function LoginScreen({navigation}) {
           .doc(uid)
           .get()
           .then((firestoreDocument) => {
+            console.log(firestoreDocument.data());
             if (!firestoreDocument.exists) {
-              alert('User does not exist');
+              setIsEmailError(true);
+              setEmailErrorText('User does not exist');
+              setIsButtonLoading(false);
               return;
             }
             const user = firestoreDocument.data();
-            this.signingIn(user);
+            signingIn(user);
+            setIsButtonLoading(false);
           })
           .catch((error) => {
-            alert(error);
+            setIsButtonLoading(false);
+            Snackbar.show({
+              text: 'Something went wrong',
+              duration: Snackbar.LENGTH_INDEFINITE,
+              action: {
+                text: 'DETAILS',
+                textColor: colors.primaryColor,
+                onPress: () => {
+                  alert(error.message);
+                },
+              },
+            });
           });
       })
       .catch((error) => {
-        alert(error);
+        setIsButtonLoading(false);
+        if (
+          error.code == 'auth/wrong-password' ||
+          error.code == 'auth/invalid-password'
+        ) {
+          setPasswordErrorText(error.message);
+          setIsPasswordError(true);
+        }
+        // long error messages
+        else if (
+          error.code == 'auth/invalid-credential' ||
+          error.code == 'auth/insufficient-permission' ||
+          error.code == 'auth/internal-error' ||
+          error.code == 'auth/project-not-found' ||
+          error.code == 'auth/reserved-claims'
+        ) {
+          Snackbar.show({
+            text: 'Something went wrong',
+            duration: Snackbar.LENGTH_INDEFINITE,
+            action: {
+              text: 'DETAILS',
+              textColor: colors.primaryColor,
+              onPress: () => {
+                alert(error.message);
+              },
+            },
+          });
+        } else {
+          setIsEmailError(true);
+          setEmailErrorText(error.message);
+        }
       });
   };
 
-  signingIn = async (data) => {
+  const signingIn = async (data) => {
     console.log(data);
     await userCache.set('userInfo', data);
   };
@@ -86,6 +140,12 @@ export default function LoginScreen({navigation}) {
               placeHolder="Ex: physivoice@trash.grav"
               autoCapitalize="none"
               keyboardType="email-address"
+              isErrorVisible={isEmailError}
+              errorText={emailErrorText}
+              onFocusCallback={() => {
+                setEmailErrorText('');
+                setIsEmailError(false);
+              }}
               onInputChange={(text) => {
                 handleEmailTextInputChange(text);
               }}>
@@ -104,6 +164,12 @@ export default function LoginScreen({navigation}) {
             <PwdField
               color={colors.primaryColor}
               value={password}
+              isErrorVisible={isPasswordError}
+              errorText={passwordErrorText}
+              onFocusCallback={() => {
+                setPasswordErrorText('');
+                setIsPasswordError(false);
+              }}
               onInputChange={(text) => {
                 setPassword(text);
               }}
@@ -116,12 +182,23 @@ export default function LoginScreen({navigation}) {
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={{alignItems: 'flex-end'}}
+              style={{alignItems: 'flex-end', marginTop: normalize(20)}}
               onPress={() => {
                 onLoginPress();
               }}>
               <View style={styles.button}>
-                <Icon name="arrow-forward" color="white" size={normalize(40)} />
+                {isButtonLoading ? (
+                  <ActivityIndicator
+                    animating={isButtonLoading}
+                    color={'white'}
+                  />
+                ) : (
+                  <Icon
+                    name="arrow-forward"
+                    color="white"
+                    size={normalize(40)}
+                  />
+                )}
               </View>
             </TouchableOpacity>
           </View>
@@ -144,7 +221,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     paddingHorizontal: '10%',
-    paddingVertical: screenHeight * 0.12,
+    paddingVertical: screenHeight * 0.1,
   },
   footer: {
     flex: 1,

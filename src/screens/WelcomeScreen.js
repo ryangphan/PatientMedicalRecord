@@ -25,10 +25,14 @@ export default function WelcomeScreen({navigation}) {
   const [animationShow, setAnimationShow] = useState(false);
 
   useEffect(() => {
-    LogBox.ignoreLogs(['Cannot update a component']);
     const _console = _.clone(console);
+    LogBox.ignoreLogs(['Cannot update a component']);
+    LogBox.ignoreLogs(['Setting a timer for a long period']);
     console.warn = (message) => {
       if (message.indexOf('Cannot update a component') <= -1) {
+        _console.warn(message);
+      }
+      if (message.indexOf('Setting a timer for a long period') <= -1) {
         _console.warn(message);
       }
     };
@@ -100,13 +104,13 @@ export default function WelcomeScreen({navigation}) {
           />
         </View>
         {animationShow ? (
-          <View style={{flex: 0.6, paddingHorizontal: normalize(35)}}>
+          <View style={{flex: 0.6}}>
             <Animatable.View
               animation={animationSignUp}
               delay={0}
               duration={800}
               useNativeDriver
-              style={{flex: 0.3}}>
+              style={{flex: 0.3, paddingHorizontal: normalize(35)}}>
               <Text style={styles.title}>
                 Join us in our mission to transform healthcare to extraordinary
               </Text>
@@ -148,7 +152,7 @@ export default function WelcomeScreen({navigation}) {
             <View
               style={{
                 flexDirection: 'row',
-                flex: 0.45,
+                flex: 0.6,
                 justifyContent: 'space-evenly',
                 alignItems: 'center',
               }}>

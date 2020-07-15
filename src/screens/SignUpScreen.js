@@ -7,13 +7,13 @@ import {
   StyleSheet,
   SafeAreaView,
   ScrollView,
-  TextInput,
+  ActivityIndicator
 } from 'react-native';
 
 import Icon from 'react-native-ionicons';
-import Swiper from 'react-native-swiper';
 import * as Animatable from 'react-native-animatable';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import Snackbar from 'react-native-snackbar';
 
 import Info from '../components/specs/Info';
 import Identification from '../components/specs/Identification';
@@ -24,46 +24,140 @@ import colors from '../assets/colors';
 
 export default function SignUpScreen({navigation}) {
   const [fullName, setFullName] = useState('');
+  const [isFullNameError, setIsFullNameError] = useState(false);
+  const [fullNameErrorText, setFullNameErrorText] = useState('');
+
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const [isValidEmail, setIsValidEmail] = useState(false);
+  const [isEmailError, setIsEmailError] = useState(false);
+  const [emailErrorText, setEmailErrorText] = useState('');
+
+  const [password, setPassword] = useState('');
+  const [isPasswordError, setIsPasswordError] = useState(false);
+  const [passwordErrorText, setPasswordErrorText] = useState('');
+
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [isConfirmPasswordError, setIsConfirmPasswordError] = useState(false);
+  const [confirmPasswordErrorText, setConfirmPasswordErrorText] = useState('');
+
   const [imageUri, setImageUri] = useState(
     'https://firebasestorage.googleapis.com/v0/b/patientmedicalrecords-788c5.appspot.com/o/Profile%20Pictures%2Fperson-icon.png?alt=media&token=06a6cd80-7d49-4127-92c5-ce843f6f8c3a',
   );
 
-  const validateInputFields = () => {
-    console.log(fullName, email, password);
+  const [isButtonLoading, setIsButtonLoading] = useState(false);
+
+  const validateInput = () => {
+    if (fullName.length < 3) {
+      setIsFullNameError(true);
+      setFullNameErrorText('Name must be at least 3 characters');
+      return false;
+    }
+    if (!isValidEmail) {
+      setIsEmailError(true);
+      setEmailErrorText('The email address is badly formatted');
+      return false;
+    }
+    if (password.length === 0) {
+      setIsPasswordError(true);
+      setPasswordErrorText('Password field must not be left blank');
+      return false;
+    }
+    if (password.length < 6) {
+      setIsPasswordError(true);
+      setPasswordErrorText('Password should be at least 6 characters');
+      setIsConfirmPasswordError(true);
+      setConfirmPasswordErrorText('Password should be at least 6 characters');
+      return false;
+    }
+    if (password !== confirmPassword) {
+      setIsConfirmPasswordError(true);
+      setConfirmPasswordErrorText("Password don't match");
+      return false;
+    }
+    if (confirmPassword.length === 0) {
+      setIsConfirmPasswordError(true);
+      setConfirmPasswordErrorText(
+        'Password confirmation field must not be left blank',
+      );
+      return false;
+    }
+    return true;
   };
 
   const onSignUpPress = () => {
-    if (password !== confirmPassword) {
-      alert("Passwords don't match.");
+    setIsButtonLoading(true);
+    if (!validateInput()) {
+      setIsButtonLoading(false);
       return;
     }
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .then((response) => {
+        console.log(response);
         const uid = response.user.uid;
         const data = {
           id: uid,
           email,
           fullName,
+          imageUri,
         };
         const usersRef = firebase.firestore().collection('users');
         usersRef
           .doc(uid)
           .set(data)
           .then(() => {
+            setIsButtonLoading(false);
             navigation.navigate('Home');
           })
           .catch((error) => {
-            alert(error);
+            setIsButtonLoading(false);
+            console.log(error);
+            Snackbar.show({
+              text: 'Something went wrong',
+              duration: Snackbar.LENGTH_INDEFINITE,
+              action: {
+                text: 'DETAILS',
+                textColor: colors.primaryColor,
+                onPress: () => {
+                  alert(error.message);
+                },
+              },
+            });
           });
       })
       .catch((error) => {
-        alert(error);
+        setIsButtonLoading(false);
+        if (
+          error.code == 'auth/wrong-password' ||
+          error.code == 'auth/invalid-password'
+        ) {
+          setPasswordErrorText(error.message);
+          setIsPasswordError(true);
+        }
+        // long error messages
+        else if (
+          error.code == 'auth/invalid-credential' ||
+          error.code == 'auth/insufficient-permission' ||
+          error.code == 'auth/internal-error' ||
+          error.code == 'auth/project-not-found' ||
+          error.code == 'auth/reserved-claims'
+        ) {
+          Snackbar.show({
+            text: 'Something went wrong',
+            duration: Snackbar.LENGTH_INDEFINITE,
+            action: {
+              text: 'DETAILS',
+              textColor: colors.primaryColor,
+              onPress: () => {
+                alert(error.message);
+              },
+            },
+          });
+        } else {
+          setIsEmailError(true);
+          setEmailErrorText(error.message);
+        }
       });
   };
   return (
@@ -75,32 +169,60 @@ export default function SignUpScreen({navigation}) {
             <Text style={styles.textHeader}>Join us</Text>
           </Animatable.View>
           <View style={styles.footer}>
-            <Swiper
-              loop={false}
-              dot={<View style={styles.dot} />}
-              activeDot={<View style={styles.activeDot} />}>
+            <ScrollView style={{flex: 1, paddingHorizontal: '8%'}}>
+              <Identification imageUri={imageUri} setImageUri={setImageUri} />
+
               <Info
                 fullName={fullName}
                 setFullName={setFullName}
+                isFullNameError={isFullNameError}
+                setIsFullNameError={setIsFullNameError}
+                fullNameErrorText={fullNameErrorText}
+                setFullNameErrorText={setFullNameErrorText}
                 email={email}
                 setEmail={setEmail}
-                password={password}
-                setPassword={setPassword}
-                confirmPassword={confirmPassword}
-                setConfirmPassword={setConfirmPassword}
                 isValidEmail={isValidEmail}
                 setIsValidEmail={setIsValidEmail}
+                isEmailError={isEmailError}
+                setIsEmailError={setIsEmailError}
+                emailErrorText={emailErrorText}
+                setEmailErrorText={setEmailErrorText}
+                password={password}
+                setPassword={setPassword}
+                isPasswordError={isPasswordError}
+                setIsPasswordError={setIsPasswordError}
+                passwordErrorText={passwordErrorText}
+                setPasswordErrorText={setPasswordErrorText}
+                confirmPassword={confirmPassword}
+                setConfirmPassword={setConfirmPassword}
+                isConfirmPasswordError={isConfirmPasswordError}
+                setIsConfirmPasswordError={setIsConfirmPasswordError}
+                confirmPasswordErrorText={confirmPasswordErrorText}
+                setConfirmPasswordErrorText={setConfirmPasswordErrorText}
               />
-
-              <Identification imageUri={imageUri} setImageUri={setImageUri} />
-            </Swiper>
+            </ScrollView>
             <TouchableOpacity
-              style={{alignItems: 'flex-end'}}
+              style={{
+                alignItems: 'flex-end',
+                marginTop: normalize(20),
+                marginEnd: normalize(50),
+              }}
               onPress={() => {
-                validateInputFields();
+                onSignUpPress();
               }}>
               <View style={styles.button}>
-                <Icon name="arrow-forward" color="white" size={normalize(40)} />
+                {isButtonLoading ? (
+                  <ActivityIndicator
+                    animating={isButtonLoading}
+                    color={'white'}
+                  />
+                ) : (
+                  <Icon
+                    name="arrow-forward"
+                    color="white"
+                    size={normalize(40)}
+                  />
+                )}
               </View>
             </TouchableOpacity>
           </View>
@@ -123,7 +245,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     paddingHorizontal: '10%',
-    paddingVertical: screenHeight * 0.068,
+    paddingVertical: screenHeight * 0.08,
   },
   textHeader: {
     color: 'white',
@@ -132,11 +254,11 @@ const styles = StyleSheet.create({
   },
   footer: {
     flex: 1,
-    height: screenHeight / 1.42,
+    height: screenHeight / 1.6,
     backgroundColor: 'white',
     borderRadius: 35,
     marginHorizontal: '4%',
-    paddingHorizontal: '8%',
+
     paddingVertical: '6.8%',
   },
   button: {
@@ -146,21 +268,5 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  dot: {
-    backgroundColor: 'rgba(52,101,217,.4)',
-    width: normalize(14),
-    height: normalize(14),
-    borderRadius: normalize(7),
-    marginHorizontal: normalize(5),
-    marginVertical: normalize(3),
-  },
-  activeDot: {
-    backgroundColor: colors.primaryColor,
-    width: normalize(30),
-    height: normalize(14),
-    borderRadius: normalize(7),
-    marginHorizontal: normalize(5),
-    marginVertical: normalize(3),
   },
 });

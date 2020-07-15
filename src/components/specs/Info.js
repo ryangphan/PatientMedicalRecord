@@ -19,23 +19,29 @@ export default function Info(props) {
       props.setEmail(text);
     } else {
       props.setIsValidEmail(false);
-      props.setEmail('');
     }
   };
+
 
   return (
     <View>
       <InputField
         title="Full name"
         iconName="person"
-        color={colors.secondaryColor}
+        color={colors.primaryColor}
         placeHolder="Ex: Jordan Peterson"
         autoCapitalize="sentences"
         keyboardType="default"
+        isErrorVisible={props.isFullNameError}
+        errorText={props.fullNameErrorText}
+        onFocusCallback={() => {
+          props.setFullNameErrorText('');
+          props.setIsFullNameError(false);
+        }}
         onInputChange={(text) => {
           props.setFullName(text);
         }}>
-        {props.fullName.length > 0 ? (
+        {props.fullName.length > 2 ? (
           <Animatable.View animation="bounceIn">
             <Icon
               name="checkmark-circle"
@@ -49,11 +55,17 @@ export default function Info(props) {
       <InputField
         title="Email"
         iconName="mail"
-        color={colors.secondaryColor}
+        color={colors.primaryColor}
         placeHolder="Ex: physivoice@trash.grav"
         autoCapitalize="none"
         keyboardType="email-address"
         value={props.email}
+        isErrorVisible={props.isEmailError}
+        errorText={props.emailErrorText}
+        onFocusCallback={() => {
+          props.setEmailErrorText('');
+          props.setIsEmailError(false);
+        }}
         onInputChange={(text) => {
           handleEmailTextInputChange(text);
         }}>
@@ -69,16 +81,28 @@ export default function Info(props) {
         ) : null}
       </InputField>
       <PwdField
-        color={colors.secondaryColor}
+        color={colors.primaryColor}
         value={props.password}
+        isErrorVisible={props.isPasswordError}
+        errorText={props.passwordErrorText}
+        onFocusCallback={() => {
+          props.setPasswordErrorText('');
+          props.setIsPasswordError(false);
+        }}
         onInputChange={(text) => {
           props.setPassword(text);
         }}
       />
       <PwdField
         title="Confirm password"
-        color={colors.secondaryColor}
+        color={colors.primaryColor}
         value={props.confirmPassword}
+        isErrorVisible={props.isConfirmPasswordError}
+        errorText={props.confirmPasswordErrorText}
+        onFocusCallback={() => {
+          props.setConfirmPasswordErrorText('');
+          props.setIsConfirmPasswordError(false);
+        }}
         onInputChange={(text) => {
           props.setConfirmPassword(text);
         }}

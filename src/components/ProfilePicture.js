@@ -146,7 +146,8 @@ const styles = StyleSheet.create({
     width: height_image,
     height: height_image,
     borderWidth: 5,
-    borderColor: colors.secondaryColor,
+    borderColor: colors.primaryColor,
+    marginBottom: normalize(30),
     borderRadius: normalize(25),
   },
   image: {

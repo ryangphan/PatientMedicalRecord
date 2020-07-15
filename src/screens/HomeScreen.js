@@ -60,9 +60,9 @@ class HomeScreen extends Component {
                 disabled={false}
                 style={{flex: 1}}
                 onPress={() => this.onUserProfilePress()}>
-                {this.state.user.image ? (
+                {this.state.user.imageUri ? (
                   <Image
-                    source={{uri: user.image}}
+                    source={{uri: user.imageUri}}
                     style={styles.image}
                     // indicator={ProgressPie}
                     indicatorProps={{
@@ -75,7 +75,7 @@ class HomeScreen extends Component {
                   />
                 ) : (
                   <Image
-                    source={require('../assets/icon.png')}
+                    source={require('../assets/person-icon.png')}
                     style={styles.image}
                   />
                 )}

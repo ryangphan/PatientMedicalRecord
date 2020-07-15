@@ -17,7 +17,7 @@
 - `npm install react-native-vector-icons`
 - `npm install react-navigation-stack`
 
-### added more
+### updated on July 12th 2020:
 
 - `npm install react-native-swiper`
 - `npm i --save lodash`
@@ -32,3 +32,7 @@
 - `npm install --save react-native-cache`
 - `npm install --save react-native-webview` then run `npx react-native link react-native-webview`
   Please refer to this [link](https://github.com/react-native-community/react-native-webview/blob/master/docs/Getting-Started.md) for Android & iOS post installation setup.
+  For android enable multidex: [link]https://developer.android.com/studio/build/multidex
+
+### updated on July 15th 2020:
+- `npm install react-native-snackbar --save`
