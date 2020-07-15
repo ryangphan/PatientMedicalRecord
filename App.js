@@ -21,7 +21,7 @@ import LoginScreen from './src/screens/LoginScreen';
 import SignUpScreen from './src/screens/SignUpScreen';
 import WelcomeScreen from './src/screens/WelcomeScreen';
 import SettingScreen from './src/screens/SettingScreen';
-import QuestionaireScreen from './src/screens/Questionaire';
+import QuestionaireScreen from './src/screens/QuestionaireScreen';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator, HeaderTitle} from '@react-navigation/stack';

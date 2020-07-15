@@ -145,7 +145,7 @@ class HomeScreen extends Component {
               <TouchableOpacity
                 style={styles.buttonDB}
                 onPress={() => this.onTempPress()}>
-                <Text style={styles.buttonTitle}>Log Out</Text>
+                <Text style={styles.buttonTitle}>Secret Button</Text>
               </TouchableOpacity>
             </View>
           </View>

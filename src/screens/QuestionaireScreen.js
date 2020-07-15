@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -7,24 +7,30 @@ import {
   StyleSheet,
   SafeAreaView,
   ScrollView,
+  Button,
 } from 'react-native';
 
 import colors from '../assets/colors';
 
 import {firebase} from '../../config/config';
 import {normalize} from '../helpers/FontHelper';
+import {WebView} from 'react-native-webview';
 
-export default function Questionaire() {
+export default QuestionaireScreen = () => {
+  const [hasForm, showForm] = useState(false);
+  const show = () => showForm(true);
+  const hide = () => showForm(false);
+  //QdGVz0jZmEWbzJTb11Db
+  //gYuJVYS1jZmEWbzJTb11Db
+
   return (
     <View style={styles.container}>
-      <SafeAreaView />
-      <View style={{flex: 1}}>
-        <Text> Questionaire Screen </Text>
-      </View>
-      <SafeAreaView />
+      <WebView
+        source={{uri: 'https://my.nativeforms.com/QdGVz0jZmEWbzJTb11Db'}}
+      />
     </View>
   );
-}
+};
 
 const screenWidth = Dimensions.get('screen').width;
 const screenHeight = Dimensions.get('screen').height;
@@ -73,3 +79,9 @@ const styles = StyleSheet.create({
     paddingVertical: normalize(15),
   },
 });
+
+{
+  /*
+ 
+ */
+}
