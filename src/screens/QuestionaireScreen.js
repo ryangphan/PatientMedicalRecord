@@ -25,9 +25,11 @@ export default QuestionaireScreen = () => {
 
   return (
     <View style={styles.container}>
+      <SafeAreaView />
       <WebView
         source={{uri: 'https://my.nativeforms.com/QdGVz0jZmEWbzJTb11Db'}}
       />
+      <SafeAreaView />
     </View>
   );
 };
