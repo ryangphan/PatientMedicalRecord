@@ -12,7 +12,7 @@ import {
 import {userCache} from '../helpers/cacheHelper';
 import {normalize} from '../helpers/FontHelper';
 import {firebase} from '../../config/config';
-import firestore from '@react-native-firebase/firestore'
+import firestore from '@react-native-firebase/firestore';
 import colors from '../assets/colors';
 import Icon from 'react-native-ionicons';
 
@@ -24,23 +24,27 @@ class HomeScreen extends Component {
     this.state = {
       user: {},
     };
+    
   }
   onLogoutPress = async () => {
     try {
       await firebase.auth().signOut();
-      await userCache.clearAll();
-      await userCache.remove('userInfo');
     } catch (error) {
       alert('Unable to sign out right now');
       console.log(error);
     }
   };
 
-  componentDidMount = async () => {
-    let userID = await firebase.auth().currentUser.uid
-    let firestoreDocument = await firestore().collection("users").doc(userID).get();
-    this.setState({user: firestoreDocument["data"]});
-    console.log()
+  componentDidMount = () => {
+    let userID = firebase.auth().currentUser.uid;
+    firestore()
+      .collection('users')
+      .doc(userID)
+      .get()
+      .then((firestoreDocument) => {
+        const data = firestoreDocument.data();
+        this.setState({user: data})
+      });
   };
 
   onTempPress = () => {};
@@ -65,7 +69,7 @@ class HomeScreen extends Component {
                 onPress={() => this.onUserProfilePress()}>
                 {this.state.user.imageUri ? (
                   <Image
-                    source={{uri: user.imageUri}}
+                    source={{uri: this.state.user.imageUri}}
                     style={styles.image}
                     // indicator={ProgressPie}
                     indicatorProps={{

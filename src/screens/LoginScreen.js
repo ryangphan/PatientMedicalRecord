@@ -67,7 +67,7 @@ export default function LoginScreen({navigation}) {
             }
             const user = firestoreDocument.data();
             setIsButtonLoading(false);
-            signingIn(user);
+            // navigation.navigate('Home Screen')
             
           })
           .catch((error) => {
@@ -118,11 +118,6 @@ export default function LoginScreen({navigation}) {
           setEmailErrorText(error.message);
         }
       });
-  };
-
-  const signingIn = async (data) => {
-    const user = await firebase.auth().currentUser;
-    console.log(user)
   };
 
   return (

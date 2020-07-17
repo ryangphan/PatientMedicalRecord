@@ -9,8 +9,11 @@ import {
   StatusBar,
 } from 'react-native';
 
+// import {Provider} from 'react-redux';
+// import store from './redux/store';
+// import { connect } from 'react-redux'
+
 import {firebase} from './config/config';
-import firestore from '@react-native-firebase/firestore';
 import colors from './src/assets/colors';
 import {userCache} from './src/helpers/cacheHelper';
 
@@ -42,12 +45,16 @@ const Tab = createBottomTabNavigator();
 
 export default function App() {
   const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(null);
 
   isUserLoggedIn = async () => {
-    const usersRef = firestore().collection('users');
-    const user = await firebase.auth().currentUser;
-    setUser(user);
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user != null) {
+        setUser(user)
+      }else {
+        setUser(null)
+      }
+    })
   };
 
   useEffect(() => {
@@ -55,41 +62,43 @@ export default function App() {
   }, []);
 
   return (
-    <NavigationContainer>
-      {user ? (
-        <HomeStackNavigator name = "Home"/>
-      ) : (
-        <Stack.Navigator>
-          <Stack.Screen
-            name="WelcomeScreen"
-            component={WelcomeScreen}
-            options={{
-              headerBackTitleVisible: false,
-              headerTransparent: true,
-              headerTitle: '',
-            }}
-          />
-          <Stack.Screen
-            name="LoginScreen"
-            component={LoginScreen}
-            options={{
-              headerBackTitleVisible: false,
-              headerTransparent: true,
-              headerTitle: '',
-            }}
-          />
-          <Stack.Screen
-            name="SignUpScreen"
-            component={SignUpScreen}
-            options={{
-              headerBackTitleVisible: false,
-              headerTransparent: true,
-              headerTitle: '',
-            }}
-          />
-        </Stack.Navigator>
-      )}
-    </NavigationContainer>
+    // <Provider store={store}>
+      <NavigationContainer>
+        {user ? (
+          <HomeStackNavigator />
+        ) : (
+          <Stack.Navigator>
+            <Stack.Screen
+              name="WelcomeScreen"
+              component={WelcomeScreen}
+              options={{
+                headerBackTitleVisible: false,
+                headerTransparent: true,
+                headerTitle: '',
+              }}
+            />
+            <Stack.Screen
+              name="LoginScreen"
+              component={LoginScreen}
+              options={{
+                headerBackTitleVisible: false,
+                headerTransparent: true,
+                headerTitle: '',
+              }}
+            />
+            <Stack.Screen
+              name="SignUpScreen"
+              component={SignUpScreen}
+              options={{
+                headerBackTitleVisible: false,
+                headerTransparent: true,
+                headerTitle: '',
+              }}
+            />
+          </Stack.Navigator>
+        )}
+      </NavigationContainer>
+    // </Provider>
   );
 }
 
@@ -118,6 +127,21 @@ const HomeTabNavigator = ({route}) => (
     <Tab.Screen name="Notification Screen" component={NotificationScreen} />
   </Tab.Navigator>
 );
+
+// const mapStateToProps = state => {
+// 	return {
+// 		auth: state.auth,
+// 	}
+// }
+
+// const mapDispatchToProps = dispatch => {
+// 	return {
+// 		signIn: user => dispatch({ type: 'SIGN_IN', payload: user }),
+// 		signOut: () => dispatch({ type: 'SIGN_OUT' }),
+// 	}
+// }
+
+// export default connect(mapStateToProps, mapDispatchToProps)(App)
 
 const styles = StyleSheet.create({
   scrollView: {

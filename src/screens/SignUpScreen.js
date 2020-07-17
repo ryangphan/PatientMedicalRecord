@@ -109,7 +109,6 @@ export default function SignUpScreen({navigation}) {
           .set(data)
           .then(() => {
             setIsButtonLoading(false);
-            signingIn(data);
           })
           .catch((error) => {
             setIsButtonLoading(false);
@@ -159,11 +158,6 @@ export default function SignUpScreen({navigation}) {
           setEmailErrorText(error.message);
         }
       });
-  };
-
-  const signingIn = async (data) => {
-    await userCache.set('userInfo', data);
-    navigation.navigate('Home Screen');
   };
 
   return (
