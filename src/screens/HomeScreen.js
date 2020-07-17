@@ -12,6 +12,7 @@ import {
 import {userCache} from '../helpers/cacheHelper';
 import {normalize} from '../helpers/FontHelper';
 import {firebase} from '../../config/config';
+import firestore from '@react-native-firebase/firestore'
 import colors from '../assets/colors';
 import Icon from 'react-native-ionicons';
 
@@ -36,8 +37,10 @@ class HomeScreen extends Component {
   };
 
   componentDidMount = async () => {
-    let temp = await userCache.get('userInfo');
-    this.setState({user: temp});
+    let userID = await firebase.auth().currentUser.uid
+    let firestoreDocument = await firestore().collection("users").doc(userID).get();
+    this.setState({user: firestoreDocument["data"]});
+    console.log()
   };
 
   onTempPress = () => {};

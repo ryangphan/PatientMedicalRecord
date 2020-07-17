@@ -42,40 +42,22 @@ const Tab = createBottomTabNavigator();
 
 export default function App() {
   const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState({});
 
   isUserLoggedIn = async () => {
     const usersRef = firestore().collection('users');
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user != null) {
-        usersRef
-          .doc(user.uid)
-          .get()
-          .then((document) => {
-            const userData = document.data();
-            //console.log(userData);
-            setLoading(false);
-            setUser(userData);
-          })
-          .catch((error) => {
-            setLoading(true);
-            console.log(error);
-          });
-      } else {
-        setLoading(false);
-        setUser(null);
-      }
-    });
+    const user = await firebase.auth().currentUser;
+    setUser(user);
   };
 
   useEffect(() => {
-    // isUserLoggedIn();
+    isUserLoggedIn();
   }, []);
 
   return (
     <NavigationContainer>
       {user ? (
-        <HomeStackNavigator />
+        <HomeStackNavigator name = "Home"/>
       ) : (
         <Stack.Navigator>
           <Stack.Screen

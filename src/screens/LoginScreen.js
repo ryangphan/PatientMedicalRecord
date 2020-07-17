@@ -121,8 +121,8 @@ export default function LoginScreen({navigation}) {
   };
 
   const signingIn = async (data) => {
-    await userCache.set('userInfo', data);
-    navigation.navigate('Home Screen');
+    const user = await firebase.auth().currentUser;
+    console.log(user)
   };
 
   return (
