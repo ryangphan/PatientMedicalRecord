@@ -1,6 +1,6 @@
 import * as firebase from 'firebase';
 import '@firebase/auth';
-import '@firebase/firestore';
+import '@react-native-firebase/firestore';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyA3Vsjxof_7-XZIFQ0eGQEBRJ52pxzpHnc',

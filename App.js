@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 
 import {firebase} from './config/config';
+import firestore from '@react-native-firebase/firestore';
 import colors from './src/assets/colors';
 import {userCache} from './src/helpers/cacheHelper';
 
@@ -44,7 +45,7 @@ export default function App() {
   const [user, setUser] = useState(null);
 
   isUserLoggedIn = async () => {
-    const usersRef = firebase.firestore().collection('users');
+    const usersRef = firestore().collection('users');
     firebase.auth().onAuthStateChanged((user) => {
       if (user != null) {
         usersRef
@@ -68,7 +69,7 @@ export default function App() {
   };
 
   useEffect(() => {
-    isUserLoggedIn();
+    // isUserLoggedIn();
   }, []);
 
   return (

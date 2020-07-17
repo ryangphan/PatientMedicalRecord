@@ -20,6 +20,7 @@ import InputField from '../components/InputField';
 import PwdField from '../components/PwdField';
 
 import {firebase} from '../../config/config';
+import firestore from '@react-native-firebase/firestore';
 import {normalize} from '../helpers/FontHelper';
 import colors from '../assets/colors';
 import {userCache} from '../helpers/cacheHelper';
@@ -53,12 +54,11 @@ export default function LoginScreen({navigation}) {
       .signInWithEmailAndPassword(email, password)
       .then((response) => {
         const uid = response.user.uid;
-        const usersRef = firebase.firestore().collection('users');
+        const usersRef = firestore().collection('users');
         usersRef
           .doc(uid)
           .get()
           .then((firestoreDocument) => {
-            console.log(firestoreDocument.data());
             if (!firestoreDocument.exists) {
               setIsEmailError(true);
               setEmailErrorText('User does not exist');
@@ -66,8 +66,9 @@ export default function LoginScreen({navigation}) {
               return;
             }
             const user = firestoreDocument.data();
-            signingIn(user);
             setIsButtonLoading(false);
+            signingIn(user);
+            
           })
           .catch((error) => {
             setIsButtonLoading(false);
@@ -120,8 +121,8 @@ export default function LoginScreen({navigation}) {
   };
 
   const signingIn = async (data) => {
-    console.log(data);
     await userCache.set('userInfo', data);
+    navigation.navigate('Home Screen');
   };
 
   return (
@@ -183,6 +184,7 @@ export default function LoginScreen({navigation}) {
 
             <TouchableOpacity
               style={{alignItems: 'flex-end', marginTop: normalize(20)}}
+              disabled={isButtonLoading}
               onPress={() => {
                 onLoginPress();
               }}>

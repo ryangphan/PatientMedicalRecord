@@ -7,7 +7,7 @@
 ### How To Run This Project
 
 - To run this project, navigate to the folder contain this project => open a terminal => enter the following command `react-native start`
-- To run on a physical Android device run the following command in a new terminal tab `npx react-native run-android`
+- To run on a physical device run the following command in a new terminal tab `npx react-native run-android` or `npx react-native run-ios`
 
 ### Required packages
 
@@ -36,3 +36,9 @@
 
 ### updated on July 15th 2020:
 - `npm install react-native-snackbar --save`
+
+### updated on July 17th 2020:
+- `npm i react-native-splash-screen --save react-native link react-native-splash-screen`
+refer to this [link] (https://github.com/crazycodeboy/react-native-splash-screen) for Android & iOs post installation set up
+- `npm i base-64`
+- `npm i @react-native-firebase/firestore`

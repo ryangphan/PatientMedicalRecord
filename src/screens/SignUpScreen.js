@@ -19,8 +19,10 @@ import Info from '../components/specs/Info';
 import Identification from '../components/specs/Identification';
 
 import {firebase} from '../../config/config';
+import firestore from '@react-native-firebase/firestore';
 import {normalize} from '../helpers/FontHelper';
 import colors from '../assets/colors';
+import {userCache} from '../helpers/cacheHelper';
 
 export default function SignUpScreen({navigation}) {
   const [fullName, setFullName] = useState('');
@@ -94,7 +96,6 @@ export default function SignUpScreen({navigation}) {
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .then((response) => {
-        console.log(response);
         const uid = response.user.uid;
         const data = {
           id: uid,
@@ -102,17 +103,16 @@ export default function SignUpScreen({navigation}) {
           fullName,
           imageUri,
         };
-        const usersRef = firebase.firestore().collection('users');
+        const usersRef = firestore().collection('users');
         usersRef
           .doc(uid)
           .set(data)
           .then(() => {
             setIsButtonLoading(false);
-            navigation.navigate('Home');
+            signingIn(data);
           })
           .catch((error) => {
             setIsButtonLoading(false);
-            console.log(error);
             Snackbar.show({
               text: 'Something went wrong',
               duration: Snackbar.LENGTH_INDEFINITE,
@@ -160,6 +160,12 @@ export default function SignUpScreen({navigation}) {
         }
       });
   };
+
+  const signingIn = async (data) => {
+    await userCache.set('userInfo', data);
+    navigation.navigate('Home Screen');
+  };
+
   return (
     <View style={styles.container}>
       <SafeAreaView />
@@ -207,6 +213,7 @@ export default function SignUpScreen({navigation}) {
                 marginTop: normalize(20),
                 marginEnd: normalize(50),
               }}
+              disabled={isButtonLoading}
               onPress={() => {
                 onSignUpPress();
               }}>

@@ -192,6 +192,8 @@ dependencies {
 
     implementation 'androidx.multidex:multidex:2.0.1'
 
+    implementation project(':react-native-splash-screen')
+
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
       exclude group:'com.facebook.fbjni'
     }
