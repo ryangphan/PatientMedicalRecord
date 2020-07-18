@@ -108,7 +108,13 @@ const HomeStackNavigator = ({navigation}) => (
       name="Dash Board"
       component={HomeTabNavigator}
     />
-    <Stack.Screen name="Setting Screen" component={SettingScreen} />
+    <Stack.Screen
+      name="Setting Screen"
+      component={SettingScreen}
+      options={{
+        headerShown: false,
+      }}
+    />
     <Stack.Screen name="Questionaire Screen" component={QuestionaireScreen} />
   </Stack.Navigator>
 );
@@ -126,7 +132,7 @@ const HomeTabNavigator = ({route}) => (
         fontSize: normalize(25),
       },
       tabStyle: {
-        borderColor: 'black',
+        borderColor: 'gray',
         borderWidth: 1,
         justifyContent: 'center',
         alignItems: 'center',
