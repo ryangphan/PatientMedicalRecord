@@ -1,4 +1,4 @@
-import React, {Component, useState, useEffect, useCallback} from 'react';
+import React, {useReducer, useState, useEffect, useCallback} from 'react';
 import {
   Image,
   View,
@@ -7,6 +7,7 @@ import {
   Dimensions,
   Linking,
   LogBox,
+  TouchableOpacity,
 } from 'react-native';
 
 import Swiper from 'react-native-swiper';
@@ -17,12 +18,15 @@ import WelcomeSlide from '../components/WelcomeSlide';
 import CustomButton from '../components/CustomButton';
 import colors from '../assets/colors';
 import {normalize} from '../helpers/FontHelper';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import loadingReducer from '../redux/reducers/LoadingReducer';
+import LoadingScreen from './LoadingScreen';
+
 
 export default function WelcomeScreen({navigation}) {
   const [animationSignUp, setAnimationSignUp] = useState(null);
   const [animationSignIn, setAnimationSignIn] = useState(null);
   const [animationShow, setAnimationShow] = useState(false);
+  const [loading, loadingDispatch] = useReducer(loadingReducer);
 
   useEffect(() => {
     const _console = _.clone(console);
@@ -36,7 +40,7 @@ export default function WelcomeScreen({navigation}) {
         _console.warn(message);
       }
     };
-  });
+  }, []);
 
   const resetAnimation = () => {
     setAnimationSignUp(null);

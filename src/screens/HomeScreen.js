@@ -1,4 +1,4 @@
-import React, {Component, useState, useEffect} from 'react';
+import React, {Component, useState, useEffect, useReducer} from 'react';
 import {
   View,
   Text,
@@ -7,26 +7,24 @@ import {
   SafeAreaView,
   Image,
   Dimensions,
+  LogBox,
 } from 'react-native';
 
+import _ from 'lodash';
+import loadingReducer from '../redux/reducers/LoadingReducer';
 import {userCache} from '../helpers/cacheHelper';
 import {normalize} from '../helpers/FontHelper';
 import {firebase} from '../../config/config';
 import firestore from '@react-native-firebase/firestore';
 import colors from '../assets/colors';
 import Icon from 'react-native-ionicons';
+import LoadingScreen from './LoadingScreen';
 
-class HomeScreen extends Component {
-  //const [user, setUser] = useState(null);
+export default function HomeScreen({navigation}) {
+  const [user, setUser] = useState({});
+  const [loading, loadingDispatch] = useReducer(loadingReducer);
 
-  constructor() {
-    super();
-    this.state = {
-      user: {},
-    };
-    
-  }
-  onLogoutPress = async () => {
+  const onLogoutPress = async () => {
     try {
       await firebase.auth().signOut();
     } catch (error) {
@@ -35,7 +33,22 @@ class HomeScreen extends Component {
     }
   };
 
-  componentDidMount = () => {
+  useEffect(() => {
+    const _console = _.clone(console);
+    LogBox.ignoreLogs([
+      "Warning: Can't perform a React state update on an unmounted component.",
+    ]);
+    console.warn = (message) => {
+      if (
+        message.indexOf(
+          "Warning: Can't perform a React state update on an unmounted component.",
+        ) <= -1
+      ) {
+        _console.warn(message);
+      }
+    };
+
+    loadingDispatch({type: 'STOP'});
     let userID = firebase.auth().currentUser.uid;
     firestore()
       .collection('users')
@@ -43,126 +56,122 @@ class HomeScreen extends Component {
       .get()
       .then((firestoreDocument) => {
         const data = firestoreDocument.data();
-        this.setState({user: data})
+        setUser(data);
       });
+  }, []);
+
+
+  const onTempPress = () => {};
+  const onUserProfilePress = () => {};
+  const onSettingPress = () => {
+    navigation.navigate('Setting Screen');
+  };
+  const onQuestionairePress = () => {
+    navigation.navigate('Questionaire Screen');
   };
 
-  onTempPress = () => {};
-  onUserProfilePress = () => {};
-  onSettingPress = () => {
-    this.props.navigation.navigate('Setting Screen');
-  };
-  onQuestionairePress = () => {
-    this.props.navigation.navigate('Questionaire Screen');
-  };
+  if (loading) return <LoadingScreen />;
 
-  render() {
-    return (
-      <View style={styles.container}>
-        <SafeAreaView />
-        <View style={styles.header}>
-          <View style={{flex: 0.7, flexDirection: 'row'}}>
-            <View style={styles.imageContainer}>
-              <TouchableOpacity
-                disabled={false}
-                style={{flex: 1}}
-                onPress={() => this.onUserProfilePress()}>
-                {this.state.user.imageUri ? (
-                  <Image
-                    source={{uri: this.state.user.imageUri}}
-                    style={styles.image}
-                    // indicator={ProgressPie}
-                    indicatorProps={{
-                      size: 40,
-                      borderWidth: 0,
-                      color: colors.logoColor,
-                      unfilledColor: 'rgba(200,200,200,0.2)',
-                    }}
-                    imageStyle={{borderRadius: 35}}
-                  />
-                ) : (
-                  <Image
-                    source={require('../assets/person-icon.png')}
-                    style={styles.image}
-                  />
-                )}
-              </TouchableOpacity>
-            </View>
-            <View style={{flex: 0.6}}>
-              <Text style={styles.textInput}>
-                Full Name: {this.state.user.fullName}
-              </Text>
-              <Text style={styles.textInput}>
-                Email: {this.state.user.email}{' '}
-              </Text>
-            </View>
-          </View>
-          <View style={{flex: 0.3, alignContent: 'center'}}>
+  return (
+    <View style={styles.container}>
+      <SafeAreaView />
+      <View style={styles.header}>
+        <View style={{flex: 0.7, flexDirection: 'row'}}>
+          <View style={styles.imageContainer}>
             <TouchableOpacity
-              style={styles.button}
-              onPress={() => this.onLogoutPress()}>
-              <Text style={styles.buttonTitle}>Log Out</Text>
+              disabled={false}
+              style={{flex: 1}}
+              onPress={() => onUserProfilePress()}>
+              {user.imageUri ? (
+                <Image
+                  source={{uri: user.imageUri}}
+                  style={styles.image}
+                  // indicator={ProgressPie}
+                  indicatorProps={{
+                    size: 40,
+                    borderWidth: 0,
+                    color: colors.logoColor,
+                    unfilledColor: 'rgba(200,200,200,0.2)',
+                  }}
+                  imageStyle={{borderRadius: 35}}
+                />
+              ) : (
+                <Image
+                  source={require('../assets/person-icon.png')}
+                  style={styles.image}
+                />
+              )}
+            </TouchableOpacity>
+          </View>
+          <View style={{flex: 0.6}}>
+            <Text style={styles.textInput}>Full Name: {user.fullName}</Text>
+            <Text style={styles.textInput}>Email: {user.email} </Text>
+          </View>
+        </View>
+        <View style={{flex: 0.3, alignContent: 'center'}}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => onLogoutPress()}>
+            <Text style={styles.buttonTitle}>Log Out</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+      <View style={{flex: 0.7}}>
+        <View style={{flex: 0.5, flexDirection: 'row'}}>
+          <View style={styles.dashBoard}>
+            <TouchableOpacity
+              style={styles.buttonDB}
+              onPress={() => onTempPress()}>
+              <Icon
+                name="airplane"
+                color="white"
+                size={normalize(50)}
+                style={{marginBottom: normalize(25)}}
+              />
+              <Text style={styles.buttonTitle}>Inquiry Form</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.dashBoard}>
+            <TouchableOpacity
+              style={styles.buttonDB}
+              onPress={() => onQuestionairePress()}>
+              <Icon
+                name="ios-home"
+                color="white"
+                size={normalize(50)}
+                style={{marginBottom: normalize(25)}}
+              />
+              <Text style={styles.buttonTitle}>Questionaire</Text>
             </TouchableOpacity>
           </View>
         </View>
-        <View style={{flex: 0.7}}>
-          <View style={{flex: 0.5, flexDirection: 'row'}}>
-            <View style={styles.dashBoard}>
-              <TouchableOpacity
-                style={styles.buttonDB}
-                onPress={() => this.onTempPress()}>
-                <Icon
-                  name="airplane"
-                  color="white"
-                  size={normalize(50)}
-                  style={{marginBottom: normalize(25)}}
-                />
-                <Text style={styles.buttonTitle}>Inquiry Form</Text>
-              </TouchableOpacity>
-            </View>
-            <View style={styles.dashBoard}>
-              <TouchableOpacity
-                style={styles.buttonDB}
-                onPress={() => this.onQuestionairePress()}>
-                <Icon
-                  name="ios-home"
-                  color="white"
-                  size={normalize(50)}
-                  style={{marginBottom: normalize(25)}}
-                />
-                <Text style={styles.buttonTitle}>Questionaire</Text>
-              </TouchableOpacity>
-            </View>
+        <View style={{flex: 0.5, flexDirection: 'row'}}>
+          <View style={styles.dashBoard}>
+            <TouchableOpacity
+              style={styles.buttonDB}
+              onPress={() => onSettingPress()}>
+              <Icon
+                name="ios-settings"
+                color="white"
+                size={normalize(50)}
+                style={{marginBottom: normalize(25)}}
+              />
+              <Text style={styles.buttonTitle}>Setting</Text>
+            </TouchableOpacity>
           </View>
-          <View style={{flex: 0.5, flexDirection: 'row'}}>
-            <View style={styles.dashBoard}>
-              <TouchableOpacity
-                style={styles.buttonDB}
-                onPress={() => this.onSettingPress()}>
-                <Icon
-                  name="ios-settings"
-                  color="white"
-                  size={normalize(50)}
-                  style={{marginBottom: normalize(25)}}
-                />
-                <Text style={styles.buttonTitle}>Setting</Text>
-              </TouchableOpacity>
-            </View>
-            <View style={styles.dashBoard}>
-              <TouchableOpacity
-                style={styles.buttonDB}
-                onPress={() => this.onTempPress()}>
-                <Text style={styles.buttonTitle}>Secret Button</Text>
-              </TouchableOpacity>
-            </View>
+          <View style={styles.dashBoard}>
+            <TouchableOpacity
+              style={styles.buttonDB}
+              onPress={() => onTempPress()}>
+              <Text style={styles.buttonTitle}>Secret Button</Text>
+            </TouchableOpacity>
           </View>
         </View>
-        <SafeAreaView />
       </View>
-    );
-  }
+      <SafeAreaView />
+    </View>
+  );
 }
-export default HomeScreen;
 
 const screenWidth = Dimensions.get('screen').width;
 const screenHeight = Dimensions.get('screen').height;
