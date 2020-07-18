@@ -50,11 +50,11 @@ export default function App() {
   isUserLoggedIn = async () => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user != null) {
-        setUser(user)
-      }else {
-        setUser(null)
+        setUser(user);
+      } else {
+        setUser(null);
       }
-    })
+    });
   };
 
   useEffect(() => {
@@ -63,41 +63,41 @@ export default function App() {
 
   return (
     // <Provider store={store}>
-      <NavigationContainer>
-        {user ? (
-          <HomeStackNavigator />
-        ) : (
-          <Stack.Navigator>
-            <Stack.Screen
-              name="WelcomeScreen"
-              component={WelcomeScreen}
-              options={{
-                headerBackTitleVisible: false,
-                headerTransparent: true,
-                headerTitle: '',
-              }}
-            />
-            <Stack.Screen
-              name="LoginScreen"
-              component={LoginScreen}
-              options={{
-                headerBackTitleVisible: false,
-                headerTransparent: true,
-                headerTitle: '',
-              }}
-            />
-            <Stack.Screen
-              name="SignUpScreen"
-              component={SignUpScreen}
-              options={{
-                headerBackTitleVisible: false,
-                headerTransparent: true,
-                headerTitle: '',
-              }}
-            />
-          </Stack.Navigator>
-        )}
-      </NavigationContainer>
+    <NavigationContainer>
+      {user ? (
+        <HomeStackNavigator />
+      ) : (
+        <Stack.Navigator>
+          <Stack.Screen
+            name="WelcomeScreen"
+            component={WelcomeScreen}
+            options={{
+              headerBackTitleVisible: false,
+              headerTransparent: true,
+              headerTitle: '',
+            }}
+          />
+          <Stack.Screen
+            name="LoginScreen"
+            component={LoginScreen}
+            options={{
+              headerBackTitleVisible: false,
+              headerTransparent: true,
+              headerTitle: '',
+            }}
+          />
+          <Stack.Screen
+            name="SignUpScreen"
+            component={SignUpScreen}
+            options={{
+              headerBackTitleVisible: false,
+              headerTransparent: true,
+              headerTitle: '',
+            }}
+          />
+        </Stack.Navigator>
+      )}
+    </NavigationContainer>
     // </Provider>
   );
 }
