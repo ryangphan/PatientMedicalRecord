@@ -220,6 +220,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#788eec',
     alignItems: 'center',
     justifyContent: 'center',
+    borderRadius: 10,
   },
   button: {
     backgroundColor: '#788eec',
