@@ -24,21 +24,22 @@
 - `npm install react-native-ionicons --save react-native link react-native-ionicons`
 - `npm install --save react-native-material-textfield`
 - `npm install --save react-native-permissions`
-- `npm install react-native-image-picker react-native link react-native-image-picker`
-  refer this link for post installation https://github.com/react-native-community/react-native-image-picker/blob/master/docs/Install.md
+- `npm install react-native-image-picker react-native link react-native-image-picker`refer this [link](https://github.com/react-native-community/react-native-image-picker/blob/master/docs/Install.md) for post installation
 
 ### updated on July 14th 2020:
 
 - `npm install --save react-native-cache`
 - `npm install --save react-native-webview` then run `npx react-native link react-native-webview`
   Please refer to this [link](https://github.com/react-native-community/react-native-webview/blob/master/docs/Getting-Started.md) for Android & iOS post installation setup.
-  For android enable multidex: [link]https://developer.android.com/studio/build/multidex
+  For android enable multidex: [link](https://developer.android.com/studio/build/multidex)
 
 ### updated on July 15th 2020:
+
 - `npm install react-native-snackbar --save`
 
 ### updated on July 17th 2020:
+
 - `npm i react-native-splash-screen --save react-native link react-native-splash-screen`
-refer to this [link] (https://github.com/crazycodeboy/react-native-splash-screen) for Android & iOs post installation set up
+  refer to this [link](https://github.com/crazycodeboy/react-native-splash-screen) for Android & iOs post installation set up
 - `npm i base-64`
 - `npm i @react-native-firebase/firestore`

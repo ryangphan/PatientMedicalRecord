@@ -60,7 +60,6 @@ export default function HomeScreen({navigation}) {
       });
   }, []);
 
-
   const onTempPress = () => {};
   const onUserProfilePress = () => {};
   const onSettingPress = () => {
@@ -280,32 +279,3 @@ const styles = StyleSheet.create({
   },
 });
 //rnpce
-
-{
-  /* 
-  <TouchableOpacity
-              disabled={false}
-              style={{flex: 1}}
-              onPress={() => this.onUserProfilePress()}>
-              {user.image ? (
-                <Image
-                  source={{uri: user.image}}
-                  style={styles.image}
-                  // indicator={ProgressPie}
-                  indicatorProps={{
-                    size: 40,
-                    borderWidth: 0,
-                    color: colors.logoColor,
-                    unfilledColor: 'rgba(200,200,200,0.2)',
-                  }}
-                  imageStyle={{borderRadius: 35}}
-                />
-              ) : (
-                <Image
-                  source={require('../assets/icon.png')}
-                  style={styles.image}
-                />
-              )}
-            </TouchableOpacity>
-*/
-}
