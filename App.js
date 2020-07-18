@@ -5,6 +5,7 @@ import loadingReducer from './src/redux/reducers/LoadingReducer';
 import {firebase} from './config/config';
 import colors from './src/assets/colors';
 import {userCache} from './src/helpers/cacheHelper';
+import {normalize} from './src/helpers/FontHelper';
 
 import ErrorBoundary from './src/components/ErrorBoundary';
 import HomeScreen from './src/screens/HomeScreen';
@@ -117,13 +118,31 @@ const HomeTabNavigator = ({route}) => (
   <Tab.Navigator
     tabBarOptions={{
       style: {
-        backgroundColor: colors.bgMain,
+        backgroundColor: '#788eec',
+        //paddingBottom: normalize(20),
       },
       activeTintColor: colors.logoColor,
       inactiveTintColor: colors.bgTextInput,
+      labelStyle: {
+        fontSize: normalize(25),
+      },
+      tabStyle: {
+        borderColor: 'black',
+        borderWidth: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
     }}>
-    <Tab.Screen name="Home Screen" component={HomeScreen} />
-    <Tab.Screen name="Notification Screen" component={NotificationScreen} />
+    <Tab.Screen
+      options={{tabBarLabel: 'Home'}}
+      name="Home Screen"
+      component={HomeScreen}
+    />
+    <Tab.Screen
+      options={{tabBarLabel: 'Notification'}}
+      name="Notification Screen"
+      component={NotificationScreen}
+    />
   </Tab.Navigator>
 );
 
