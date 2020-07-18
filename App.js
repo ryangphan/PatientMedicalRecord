@@ -1,18 +1,7 @@
 import 'react-native-gesture-handler';
-import React, {Component, useState, useEffect} from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-} from 'react-native';
+import React, {useReducer, useState, useEffect} from 'react';
 
-// import {Provider} from 'react-redux';
-// import store from './redux/store';
-// import { connect } from 'react-redux'
-
+import loadingReducer from './src/redux/reducers/LoadingReducer';
 import {firebase} from './config/config';
 import colors from './src/assets/colors';
 import {userCache} from './src/helpers/cacheHelper';
@@ -20,54 +9,64 @@ import {userCache} from './src/helpers/cacheHelper';
 import ErrorBoundary from './src/components/ErrorBoundary';
 import HomeScreen from './src/screens/HomeScreen';
 import NotificationScreen from './src/screens/NotificationScreen';
-
-import LoginScreen from './src/screens/LoginScreen';
-import SignUpScreen from './src/screens/SignUpScreen';
-import WelcomeScreen from './src/screens/WelcomeScreen';
 import SettingScreen from './src/screens/SettingScreen';
 import QuestionaireScreen from './src/screens/QuestionaireScreen';
 
+import LoadingScreen from './src/screens/LoadingScreen';
+import WelcomeScreen from './src/screens/WelcomeScreen';
+import LoginScreen from './src/screens/LoginScreen';
+import SignUpScreen from './src/screens/SignUpScreen';
+
 import {NavigationContainer} from '@react-navigation/native';
+import * as RootNavigation from './src/helpers/RootNavigation';
 import {createStackNavigator, HeaderTitle} from '@react-navigation/stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+
+import SplashScreen from 'react-native-splash-screen';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
 
 export default function App() {
-  const [loading, setLoading] = useState(true);
+  const [loading, loadingDispatch] = useReducer(loadingReducer, true);
   const [user, setUser] = useState(null);
 
   isUserLoggedIn = async () => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user != null) {
+        loadingDispatch({type: 'START'});
         setUser(user);
       } else {
+        // trash logic starts here -_- but it works perfect
         setUser(null);
+        RootNavigation.navigate('WelcomeScreen');
+        loadingDispatch({type: 'STOP'});
       }
     });
   };
 
   useEffect(() => {
     isUserLoggedIn();
+    SplashScreen.hide();
   }, []);
 
   return (
-    // <Provider store={store}>
-    <NavigationContainer>
+    <NavigationContainer ref={RootNavigation.navigationRef}>
       {user ? (
         <HomeStackNavigator />
       ) : (
         <Stack.Navigator>
+          <Stack.Screen
+            name="LoadingScreen"
+            component={LoadingScreen}
+            options={{
+              headerBackTitleVisible: false,
+              headerTransparent: true,
+              headerTitle: '',
+            }}
+          />
           <Stack.Screen
             name="WelcomeScreen"
             component={WelcomeScreen}
@@ -105,7 +104,7 @@ export default function App() {
 const HomeStackNavigator = ({navigation}) => (
   <Stack.Navigator>
     <Stack.Screen
-      //options={{headerShown: false}}
+      options={{headerShown: false}}
       name="Dash Board"
       component={HomeTabNavigator}
     />
@@ -142,45 +141,6 @@ const HomeTabNavigator = ({route}) => (
 // }
 
 // export default connect(mapStateToProps, mapDispatchToProps)(App)
-
-const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
-  },
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
-  body: {
-    backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
-  },
-});
 
 {
   /*
