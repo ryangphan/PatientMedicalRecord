@@ -71,9 +71,7 @@ export default function App() {
             name="WelcomeScreen"
             component={WelcomeScreen}
             options={{
-              headerBackTitleVisible: false,
-              headerTransparent: true,
-              headerTitle: '',
+              headerShown: false,
             }}
           />
           <Stack.Screen
