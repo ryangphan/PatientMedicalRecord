@@ -25,6 +25,7 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import SplashScreen from 'react-native-splash-screen';
+import messaging from '@react-native-firebase/messaging'
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();

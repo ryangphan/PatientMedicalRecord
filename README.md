@@ -8,6 +8,7 @@
 
 - To run this project, navigate to the folder contain this project => open a terminal => enter the following command `react-native start`
 - To run on a physical device run the following command in a new terminal tab `npx react-native run-android` or `npx react-native run-ios`
+- To run on an emulator, use Google :)
 
 ### Required packages
 
@@ -43,3 +44,11 @@
   refer to this [link](https://github.com/crazycodeboy/react-native-splash-screen) for Android & iOs post installation set up
 - `npm i base-64`
 - `npm i @react-native-firebase/firestore`
+
+
+### updated on July 18th 2020:
+- `npm install --save react-native-push-notification`
+- `npm install @react-native-community/push-notification-ios` [link](https://github.com/react-native-community/push-notification-ios)
+Also refer to the Trello tag for post installation set up for iOS
+- `npm install @react-native-firebase/messaging`
+refer to this [link](https://www.codementor.io/@uokesita/react-native-push-notifications-with-firebase-2019-10on0z19t6) to set up APNS for push notification features in iOS (required a paid Apple account to generate certificate)
