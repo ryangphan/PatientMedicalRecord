@@ -55,6 +55,210 @@ class SettingScreen extends Component {
 
         {/* ------------------------------- */}
 
+        <View
+          style={{
+            flex: 1,
+            paddingHorizontal: normalize(15),
+            paddingTop: normalize(10),
+          }}>
+          <Text style={{color: '#696969', fontSize: normalize(15)}}>
+            Notifications
+          </Text>
+          <View
+            style={{
+              borderWidth: 1,
+              borderColor: '#A9A9A9',
+              marginEnd: screenWidth * 0.3,
+              marginTop: normalize(4),
+            }}
+          />
+          {/* ....................... */}
+          <View style={styles.content}>
+            <View style={{alignContent: 'flex-start'}}>
+              <Text style={styles.contentTitle}>Push Notifications</Text>
+              <Text style={{fontSize: normalize(9.3), color: 'silver'}}>
+                Receive incoming messages and bookings
+              </Text>
+            </View>
+            <Switch
+              style={{alignItems: 'flex-end'}}
+              trackColor={{false: '#767577', true: '#41bf36'}}
+              thumbColor={'#f4f3f4'}
+              ios_backgroundColor="#3e3e3e"
+              onValueChange={() => {
+                this.setState({
+                  isPushNotifications: !this.state.isPushNotifications,
+                });
+              }}
+              value={this.state.isPushNotifications}
+            />
+          </View>
+          <View style={styles.content}>
+            <View style={{alignContent: 'flex-start'}}>
+              <Text style={styles.contentTitle}>SMS</Text>
+              <Text style={{fontSize: normalize(9.3), color: 'silver'}}>
+                Notifications via SMS
+              </Text>
+            </View>
+            <Switch
+              style={{alignItems: 'flex-end'}}
+              trackColor={{false: '#767577', true: '#41bf36'}}
+              thumbColor={'#f4f3f4'}
+              ios_backgroundColor="#3e3e3e"
+              onValueChange={() => {
+                this.setState({
+                  isSMS: !this.state.isSMS,
+                });
+              }}
+              value={this.state.isSMS}
+            />
+          </View>
+          <View style={styles.content}>
+            <View style={{alignContent: 'flex-start'}}>
+              <Text style={styles.contentTitle}>Email</Text>
+              <Text style={{fontSize: normalize(9.3), color: 'silver'}}>
+                We will send all booking information via email
+              </Text>
+            </View>
+            <Switch
+              style={{alignItems: 'flex-end'}}
+              trackColor={{false: '#767577', true: '#41bf36'}}
+              thumbColor={'#f4f3f4'}
+              ios_backgroundColor="#3e3e3e"
+              onValueChange={() => {
+                this.setState({
+                  isEmail: !this.state.isEmail,
+                });
+              }}
+              value={this.state.isEmail}
+            />
+          </View>
+          <View style={styles.content}>
+            <View style={{alignContent: 'flex-start'}}>
+              <Text style={styles.contentTitle}>Receive Offers</Text>
+              <Text style={{fontSize: normalize(9.3), color: 'silver'}}>
+                You will receive offers from us via email
+              </Text>
+            </View>
+            <Switch
+              style={{alignItems: 'flex-end'}}
+              trackColor={{false: '#767577', true: '#41bf36'}}
+              thumbColor={'#f4f3f4'}
+              ios_backgroundColor="#3e3e3e"
+              onValueChange={() => {
+                this.setState({
+                  isReceiveOffers: !this.state.isReceiveOffers,
+                });
+              }}
+              value={this.state.isReceiveOffers}
+            />
+          </View>
+
+          {/* ------------------------------- */}
+          <View style={{flex: 0.3, justifyContent: 'center'}}>
+            <Text style={{color: '#696969', fontSize: normalize(15)}}>
+              Support
+            </Text>
+            <View
+              style={{
+                borderWidth: 1,
+                borderColor: '#A9A9A9',
+                marginEnd: screenWidth * 0.3,
+                marginTop: normalize(4),
+              }}
+            />
+            {/* ....................... */}
+            <View style={styles.content2}>
+              <View style={{alignContent: 'flex-start'}}>
+                <Text style={styles.contentTitle}>Help Hub</Text>
+              </View>
+              <TouchableOpacity style={{marginEnd: normalize(15)}}>
+                <Icon name="bug" size={normalize(20)} />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.content2}>
+              <View style={{alignContent: 'flex-start'}}>
+                <Text style={styles.contentTitle}>Report a Problem</Text>
+              </View>
+              <TouchableOpacity style={{marginEnd: normalize(15)}}>
+                <Icon name="bug" size={normalize(20)} />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.content2}>
+              <View style={{alignContent: 'flex-start'}}>
+                <Text style={styles.contentTitle}>Give Us Feedback</Text>
+              </View>
+              <TouchableOpacity style={{marginEnd: normalize(15)}}>
+                <Icon name="bug" size={normalize(20)} />
+              </TouchableOpacity>
+            </View>
+          </View>
+          {/* ------------------------------- */}
+          <View style={styles.bodyContent}>
+            <Text style={{color: '#696969', fontSize: normalize(15)}}>
+              Legal and Regulations
+            </Text>
+            <View
+              style={{
+                borderWidth: 1,
+                borderColor: '#A9A9A9',
+                marginEnd: screenWidth * 0.3,
+                marginTop: normalize(4),
+              }}
+            />
+            {/* ....................... */}
+            <View style={styles.content2}>
+              <View style={{alignContent: 'flex-start'}}>
+                <Text style={styles.contentTitle}>Terms of Use</Text>
+              </View>
+              <TouchableOpacity style={{marginEnd: normalize(15)}}>
+                <Icon name="chevron-right" size={normalize(20)} />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.content2}>
+              <View style={{alignContent: 'flex-start'}}>
+                <Text style={styles.contentTitle}>Privacy policy</Text>
+              </View>
+              <TouchableOpacity style={{marginEnd: normalize(15)}}>
+                <Icon name="eye-slash" size={normalize(20)} />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.content2}>
+              <View style={{alignContent: 'flex-start'}}>
+                <Text style={styles.contentTitle}>Payment Policy</Text>
+              </View>
+              <TouchableOpacity style={{marginEnd: normalize(15)}}>
+                <Icon name="chevron-right" size={normalize(20)} />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.content2}>
+              <View style={{alignContent: 'flex-start'}}>
+                <Text style={styles.contentTitle}>About</Text>
+              </View>
+              <TouchableOpacity style={{marginEnd: normalize(18)}}>
+                <Icon name="question" size={normalize(20)} />
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          <View
+            style={{
+              flex: 0.13,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignContent: 'center',
+            }}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                this.onLogoutPress();
+              }}>
+              <Text style={{color: 'red', fontSize: normalize(17)}}>
+                Log Out
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
         <SafeAreaView />
       </View>
     );
