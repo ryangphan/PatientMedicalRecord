@@ -19,6 +19,7 @@ import firestore from '@react-native-firebase/firestore';
 import colors from '../assets/colors';
 import Swiper from 'react-native-swiper';
 import { FlatList, ScrollView, TextInput } from 'react-native-gesture-handler';
+import Snackbar from 'react-native-snackbar';
 
 
 export default function InquiryScreen({navigation}) {
@@ -87,20 +88,39 @@ export default function InquiryScreen({navigation}) {
         )
     }
 
-    const isFieldValid = () => {
-        return field.length > 6
-    }
+    const onSwipeSubmit = () => {
+        const uID = firebase.auth().currentUser.uid;
 
-    const isSignsValid = () => {
-        return signs.length > 6
-    }
+        const inquiryRef = firestore().collection('inquiries')
+        const data = {
+            "fields": field,
+            "signs": signs,
+            "timeline": timeline,
+            "history": history
+        }
 
-    const isTimelineValid = () => {
-        return timeline.length > 6
-    }
+        inquiryRef
+            .doc(uID)
+            .set(data)
+            .then(() => {
+                navigation.navigate('Dash Board')    
+            })
+            .catch((error) => {
+                Snackbar.show({
+                    text: 'Something went wrong',
+                    duration: Snackbar.LENGTH_INDEFINITE,
+                    action: {
+                      text: 'DETAILS',
+                      textColor: colors.primaryColor,
+                      onPress: () => {
+                        alert(error.message);
+                      },
+                    },
+                  });
+            })
 
-    const isHistoryValid = () => {
-        return history.length > 6
+
+        
     }
 
     return (
@@ -115,7 +135,7 @@ export default function InquiryScreen({navigation}) {
                         setEnableScroll(false)
                     }, 10);
                     setTimeout(() => {
-                        navigation.navigate('Dash Board');
+                        onSwipeSubmit()
                     }, 2000);
                 }
             }}
@@ -168,7 +188,7 @@ const Query = (props) => {
                 style={queryStyles.textInput}
                 multiline={true}
                 numberOfLines={4}
-                placeholder='Please type here..'
+                placeholder='Please type here.. At least 6 characters'
                 onChangeText={(text) => props.setText(text, props.question)}
             />
         </View>
