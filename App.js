@@ -17,6 +17,7 @@ import LoadingScreen from './src/screens/LoadingScreen';
 import WelcomeScreen from './src/screens/WelcomeScreen';
 import LoginScreen from './src/screens/LoginScreen';
 import SignUpScreen from './src/screens/SignUpScreen';
+import InquiryScreen from './src/screens/InquiryScreen';
 
 import {NavigationContainer} from '@react-navigation/native';
 import * as RootNavigation from './src/helpers/RootNavigation';
@@ -109,11 +110,18 @@ const HomeStackNavigator = ({navigation}) => (
       component={HomeTabNavigator}
     />
     <Stack.Screen
+      name="Inquiry Screen"
+      component={InquiryScreen}
+      // options={{
+      //   headerShown: false,
+      // }}
+    />
+    <Stack.Screen
       name="Setting Screen"
       component={SettingScreen}
-      options={{
-        headerShown: false,
-      }}
+      // options={{
+      //   headerShown: false,
+      // }}
     />
     <Stack.Screen name="Questionaire Screen" component={QuestionaireScreen} />
   </Stack.Navigator>
@@ -123,7 +131,7 @@ const HomeTabNavigator = ({route}) => (
   <Tab.Navigator
     tabBarOptions={{
       style: {
-        backgroundColor: '#788eec',
+        backgroundColor: colors.primaryColor,
         //paddingBottom: normalize(20),
       },
       activeTintColor: colors.logoColor,

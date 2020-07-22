@@ -60,7 +60,13 @@ export default function HomeScreen({navigation}) {
       });
   }, []);
 
-  const onTempPress = () => {};
+  const onInquiryPress = () => {
+    navigation.navigate('Inquiry Screen');
+  };
+
+  const onTempPress = () => {
+
+  }
   const onUserProfilePress = () => {};
   const onSettingPress = () => {
     navigation.navigate('Setting Screen');
@@ -102,7 +108,7 @@ export default function HomeScreen({navigation}) {
               )}
             </TouchableOpacity>
           </View>
-          <View style={{flex: 0.6}}>
+          <View style={styles.userInfo}>
             <Text style={styles.textInput}>Full Name: {user.fullName}</Text>
             <Text style={styles.textInput}>Email: {user.email} </Text>
           </View>
@@ -120,10 +126,10 @@ export default function HomeScreen({navigation}) {
           <View style={styles.dashBoard}>
             <TouchableOpacity
               style={styles.buttonDB}
-              onPress={() => onTempPress()}>
+              onPress={() => onInquiryPress()}>
               <Icon
                 name="airplane"
-                color="white"
+                color={colors.primaryColor}
                 size={normalize(50)}
                 style={{marginBottom: normalize(25)}}
               />
@@ -136,7 +142,7 @@ export default function HomeScreen({navigation}) {
               onPress={() => onQuestionairePress()}>
               <Icon
                 name="ios-home"
-                color="white"
+                color={colors.primaryColor}
                 size={normalize(50)}
                 style={{marginBottom: normalize(25)}}
               />
@@ -151,7 +157,7 @@ export default function HomeScreen({navigation}) {
               onPress={() => onSettingPress()}>
               <Icon
                 name="ios-settings"
-                color="white"
+                color={colors.primaryColor}
                 size={normalize(50)}
                 style={{marginBottom: normalize(25)}}
               />
@@ -185,7 +191,7 @@ const styles = StyleSheet.create({
     //height: 60,
     flex: 0.3,
     borderBottomWidth: 0.5,
-    backgroundColor: colors.borderColor,
+    backgroundColor: colors.primaryColor,
     borderBottomColor: 'black',
     //alignItems: 'center',
     //justifyContent: 'center',
@@ -217,13 +223,23 @@ const styles = StyleSheet.create({
   buttonDB: {
     height: screenHeight * 0.5 * 0.5 * 0.85,
     width: screenWidth * 0.5 * 0.9,
-    backgroundColor: '#788eec',
+    backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,
+    //Adding Shadow Style
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.34,
+    shadowRadius: 6.27,
+
+    elevation: 10,
   },
   button: {
-    backgroundColor: '#788eec',
+    backgroundColor: 'white',
     marginLeft: 30,
     marginRight: 30,
     marginTop: normalize(10),
@@ -231,9 +247,18 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     alignItems: 'center',
     justifyContent: 'center',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.34,
+    shadowRadius: 6.27,
+
+    elevation: 10,
   },
   buttonTitle: {
-    color: 'white',
+    color: colors.primaryColor,
     fontSize: 16,
     fontWeight: 'bold',
   },
@@ -266,17 +291,22 @@ const styles = StyleSheet.create({
     marginLeft: normalize(10),
   },
   textInput: {
-    flex: 1,
+    // flex: 1,
     backgroundColor: 'transparent',
 
     width: '100%',
 
     fontSize: normalize(30),
     fontWeight: '200',
-    color: 'black',
-    padding: normalize(10),
-    marginHorizontal: normalize(10),
-    marginVertical: normalize(15),
+    color: 'white',
+    paddingTop: normalize(10),
+    // marginHorizontal: normalize(10),
+    // marginVertical: normalize(15),
   },
+  userInfo: {
+    flex: 0.6,
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
 });
 //rnpce
