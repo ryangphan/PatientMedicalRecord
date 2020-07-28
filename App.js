@@ -12,6 +12,7 @@ import HomeScreen from './src/screens/HomeScreen';
 import NotificationScreen from './src/screens/NotificationScreen';
 import SettingScreen from './src/screens/SettingScreen';
 import QuestionaireScreen from './src/screens/QuestionaireScreen';
+import VoiceNavigationScreen from './src/screens/VoiceNavigation';
 
 import LoadingScreen from './src/screens/LoadingScreen';
 import WelcomeScreen from './src/screens/WelcomeScreen';
@@ -26,7 +27,7 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import SplashScreen from 'react-native-splash-screen';
-import messaging from '@react-native-firebase/messaging'
+import messaging from '@react-native-firebase/messaging';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -124,6 +125,7 @@ const HomeStackNavigator = ({navigation}) => (
       // }}
     />
     <Stack.Screen name="Questionaire Screen" component={QuestionaireScreen} />
+    <Stack.Screen name="Voice Navigation" component={VoiceNavigationScreen} />
   </Stack.Navigator>
 );
 

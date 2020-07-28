@@ -424,6 +424,8 @@ PODS:
     - RNPermissions
   - Permission-PhotoLibrary (2.1.5):
     - RNPermissions
+  - Permission-SpeechRecognition (2.1.5):
+    - RNPermissions
   - PromisesObjC (1.2.9)
   - Protobuf (3.12.0)
   - RCTRequired (0.63.0)
@@ -598,6 +600,8 @@ PODS:
     - React
   - react-native-splash-screen (3.2.0):
     - React
+  - react-native-voice (1.1.6):
+    - React
   - react-native-webview (10.3.2):
     - React
   - React-RCTActionSheet (0.63.0):
@@ -724,6 +728,7 @@ DEPENDENCIES:
   - Permission-Camera (from `../node_modules/react-native-permissions/ios/Camera.podspec`)
   - Permission-Microphone (from `../node_modules/react-native-permissions/ios/Microphone.podspec`)
   - Permission-PhotoLibrary (from `../node_modules/react-native-permissions/ios/PhotoLibrary.podspec`)
+  - Permission-SpeechRecognition (from `../node_modules/react-native-permissions/ios/SpeechRecognition.podspec`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
   - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
   - React (from `../node_modules/react-native/`)
@@ -739,6 +744,7 @@ DEPENDENCIES:
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
+  - "react-native-voice (from `../node_modules/@react-native-community/voice`)"
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
@@ -818,6 +824,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-permissions/ios/Microphone.podspec"
   Permission-PhotoLibrary:
     :path: "../node_modules/react-native-permissions/ios/PhotoLibrary.podspec"
+  Permission-SpeechRecognition:
+    :path: "../node_modules/react-native-permissions/ios/SpeechRecognition.podspec"
   RCTRequired:
     :path: "../node_modules/react-native/Libraries/RCTRequired"
   RCTTypeSafety:
@@ -844,6 +852,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-safe-area-context"
   react-native-splash-screen:
     :path: "../node_modules/react-native-splash-screen"
+  react-native-voice:
+    :path: "../node_modules/@react-native-community/voice"
   react-native-webview:
     :path: "../node_modules/react-native-webview"
   React-RCTActionSheet:
@@ -933,6 +943,7 @@ SPEC CHECKSUMS:
   Permission-Camera: 53d46bd722aea28d796e20f05fb3cbe6cde6ccb6
   Permission-Microphone: af45e35013788b52eecf3cd8f13185c4b6f7bff7
   Permission-PhotoLibrary: 3400b260e5f80e0dd9c04d00c2ceab233bf88427
+  Permission-SpeechRecognition: 844dc75f7165ff00bc0714bedd1c2bd42d6fa076
   PromisesObjC: b48e0338dbbac2207e611750777895f7a5811b75
   Protobuf: 2793fcd0622a00b546c60e7cbbcc493e043e9bb9
   RCTRequired: e46bb77db03887b3e200d34b08515c804669db99
@@ -948,6 +959,7 @@ SPEC CHECKSUMS:
   react-native-image-picker: 21dfd898395b663680e987496f6c3431eea49fdb
   react-native-safe-area-context: 4c3249e4840225c61fcd215b136af0a737bccb79
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
+  react-native-voice: 72fc6646749654af8437efc2a6a196aeba22462f
   react-native-webview: e2c0bce9a1a7c7edd4eb30f0c3016fce216245ce
   React-RCTActionSheet: aadd91a1d6cbfae50dd41f140004f816e9e47ade
   React-RCTAnimation: 7fa2ef6c0ef1e3f0b7d2261c827ec94412deb5e6
@@ -974,6 +986,6 @@ SPEC CHECKSUMS:
   Yoga: 7d2edc5b410474191962e6dee88ee67f9b328b6b
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 3565f2465d65ff6919ab002bde86123bd9898bb7
+PODFILE CHECKSUM: d28bb9dd24ab1d8988d8c1bf1ca0c3a4926dc357
 
 COCOAPODS: 1.9.3

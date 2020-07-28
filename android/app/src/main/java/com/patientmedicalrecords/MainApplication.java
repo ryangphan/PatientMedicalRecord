@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+import com.wenkesj.voice.VoicePackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import com.reactnativecommunity.webview.RNCWebViewPackage;

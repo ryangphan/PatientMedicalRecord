@@ -65,8 +65,8 @@ export default function HomeScreen({navigation}) {
   };
 
   const onTempPress = () => {
-
-  }
+    navigation.navigate('Voice Navigation');
+  };
   const onUserProfilePress = () => {};
   const onSettingPress = () => {
     navigation.navigate('Setting Screen');
@@ -228,7 +228,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 10,
     //Adding Shadow Style
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 5,
@@ -247,7 +247,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 5,
@@ -306,7 +306,7 @@ const styles = StyleSheet.create({
   userInfo: {
     flex: 0.6,
     justifyContent: 'center',
-    alignItems: 'center'
-  }
+    alignItems: 'center',
+  },
 });
 //rnpce

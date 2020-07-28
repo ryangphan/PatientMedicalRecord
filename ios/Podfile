@@ -16,6 +16,8 @@ target 'PatientMedicalRecords' do
 
   pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
 
+  pod 'react-native-voice', :path => '../node_modules/@react-native-community/voice'
+
   target 'PatientMedicalRecordsTests' do
     inherit! :complete
     # Pods for testing
@@ -34,6 +36,7 @@ target 'PatientMedicalRecords' do
   pod 'Permission-Camera', :path => "../node_modules/react-native-permissions/ios/Camera.podspec"
   pod 'Permission-PhotoLibrary', :path => "#{permissions_path}/PhotoLibrary.podspec"
   pod 'Permission-Microphone', :path => "#{permissions_path}/Microphone.podspec"
+  pod 'Permission-SpeechRecognition', :path => "#{permissions_path}/SpeechRecognition.podspec"
 end
 
 target 'PatientMedicalRecords-tvOS' do
