@@ -13,7 +13,7 @@ import NotificationScreen from './src/screens/NotificationScreen';
 import SettingScreen from './src/screens/SettingScreen';
 import QuestionaireScreen from './src/screens/QuestionaireScreen';
 import VoiceNavigationScreen from './src/screens/VoiceNavigation';
-import VoiceNavigationScreen2 from './src/screens/VoiceNavigation2';
+import VoiceNavigationScreen2 from './src/pocketsphinx/VoiceNavigation2';
 
 import LoadingScreen from './src/screens/LoadingScreen';
 import WelcomeScreen from './src/screens/WelcomeScreen';
