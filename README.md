@@ -45,10 +45,15 @@
 - `npm i base-64`
 - `npm i @react-native-firebase/firestore`
 
-
 ### updated on July 18th 2020:
+
 - `npm install --save react-native-push-notification`
 - `npm install @react-native-community/push-notification-ios` [link](https://github.com/react-native-community/push-notification-ios)
-Also refer to the Trello tag for post installation set up for iOS
+  Also refer to the Trello tag for post installation set up for iOS
 - `npm install @react-native-firebase/messaging`
-refer to this [link](https://www.codementor.io/@uokesita/react-native-push-notifications-with-firebase-2019-10on0z19t6) to set up APNS for push notification features in iOS (required a paid Apple account to generate certificate)
+  refer to this [link](https://www.codementor.io/@uokesita/react-native-push-notifications-with-firebase-2019-10on0z19t6) to set up APNS for push notification features in iOS (required a paid Apple account to generate certificate)
+
+### updated on July 19th 2020:
+
+- `react-native link @react-native-community/voice` refer to this [link](https://github.com/react-native-community/voice) for post installation setup for both iOS & Android
+- `npm install react-native-render-html --save`. You must also need to instal `react-native-webview`as a dependency to use the html-render. You can follow the step in previous instruction or simply click on this [link](https://github.com/react-native-community/react-native-webview/blob/master/docs/Getting-Started.md)

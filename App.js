@@ -13,6 +13,7 @@ import NotificationScreen from './src/screens/NotificationScreen';
 import SettingScreen from './src/screens/SettingScreen';
 import QuestionaireScreen from './src/screens/QuestionaireScreen';
 import VoiceNavigationScreen from './src/screens/VoiceNavigation';
+import VoiceNavigationScreen2 from './src/screens/VoiceNavigation2';
 
 import LoadingScreen from './src/screens/LoadingScreen';
 import WelcomeScreen from './src/screens/WelcomeScreen';
@@ -126,6 +127,10 @@ const HomeStackNavigator = ({navigation}) => (
     />
     <Stack.Screen name="Questionaire Screen" component={QuestionaireScreen} />
     <Stack.Screen name="Voice Navigation" component={VoiceNavigationScreen} />
+    <Stack.Screen
+      name="Voice Navigation 2"
+      component={VoiceNavigationScreen2}
+    />
   </Stack.Navigator>
 );
 
