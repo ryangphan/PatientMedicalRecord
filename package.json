@@ -7,7 +7,8 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "postinstall": "node preBuildFiles/index.js"
   },
   "dependencies": {
     "@ant-design/icons": "^4.2.1",
@@ -32,7 +33,7 @@
     "react-native-animatable": "^1.3.3",
     "react-native-cache": "^2.0.0-rc.5",
     "react-native-gesture-handler": "^1.6.1",
-    "react-native-image-picker": "^2.3.2",
+    "react-native-image-picker": "^2.3.3",
     "react-native-ionicons": "^4.6.5",
     "react-native-keyboard-aware-scroll-view": "^0.9.1",
     "react-native-material-textfield": "^0.16.1",
@@ -57,6 +58,7 @@
     "babel-jest": "^25.1.0",
     "eslint": "^6.5.1",
     "jest": "^25.1.0",
+    "jetifier": "^1.6.6",
     "metro-react-native-babel-preset": "^0.59.0",
     "react-test-renderer": "16.13.1"
   },

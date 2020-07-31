@@ -68,8 +68,8 @@ export default function HomeScreen({navigation}) {
     {
       /* Uncommented the code below here if you want to use react-native-community/voice package*/
     }
-    //navigation.navigate('Voice Navigation');
-    navigation.navigate('Voice Navigation 2');
+    navigation.navigate('Voice Navigation');
+    // navigation.navigate('Voice Navigation 2');
   };
   const onUserProfilePress = () => {};
   const onSettingPress = () => {
