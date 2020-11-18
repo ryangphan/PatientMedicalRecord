@@ -57,3 +57,4 @@
 
 - `react-native link @react-native-community/voice` refer to this [link](https://github.com/react-native-community/voice) for post installation setup for both iOS & Android
 - `npm install react-native-render-html --save`. You must also need to instal `react-native-webview`as a dependency to use the html-render. You can follow the step in previous instruction or simply click on this [link](https://github.com/react-native-community/react-native-webview/blob/master/docs/Getting-Started.md)
+# lightmap
